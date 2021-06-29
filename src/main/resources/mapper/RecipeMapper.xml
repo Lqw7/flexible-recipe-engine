@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiwei.engine.mapper.RecipeMapper">
+  <resultMap id="BaseResultMap" type="com.qiwei.engine.domain.Recipe">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="ingredients" jdbcType="VARCHAR" property="ingredients" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
+    <result column="cookTime" jdbcType="VARCHAR" property="cooktime" />
+    <result column="recipeYield" jdbcType="VARCHAR" property="recipeyield" />
+    <result column="datePublished" jdbcType="VARCHAR" property="datepublished" />
+    <result column="prepTime" jdbcType="VARCHAR" property="preptime" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, `name`, ingredients, url, image, cookTime, recipeYield, datePublished, prepTime, 
+    description
+  </sql>
+  <select id="selectByExample" parameterType="com.qiwei.engine.domain.RecipeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from recipes
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from recipes
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from recipes
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.qiwei.engine.domain.RecipeExample">
+    delete from recipes
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.qiwei.engine.domain.Recipe">
+    insert into recipes (id, `name`, ingredients, 
+      url, image, cookTime, 
+      recipeYield, datePublished, prepTime, 
+      description)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{ingredients,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}, #{cooktime,jdbcType=VARCHAR}, 
+      #{recipeyield,jdbcType=VARCHAR}, #{datepublished,jdbcType=VARCHAR}, #{preptime,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qiwei.engine.domain.Recipe">
+    insert into recipes
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="ingredients != null">
+        ingredients,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="image != null">
+        image,
+      </if>
+      <if test="cooktime != null">
+        cookTime,
+      </if>
+      <if test="recipeyield != null">
+        recipeYield,
+      </if>
+      <if test="datepublished != null">
+        datePublished,
+      </if>
+      <if test="preptime != null">
+        prepTime,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="ingredients != null">
+        #{ingredients,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null">
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="cooktime != null">
+        #{cooktime,jdbcType=VARCHAR},
+      </if>
+      <if test="recipeyield != null">
+        #{recipeyield,jdbcType=VARCHAR},
+      </if>
+      <if test="datepublished != null">
+        #{datepublished,jdbcType=VARCHAR},
+      </if>
+      <if test="preptime != null">
+        #{preptime,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.qiwei.engine.domain.RecipeExample" resultType="java.lang.Long">
+    select count(*) from recipes
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update recipes
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null">
+        `name` = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ingredients != null">
+        ingredients = #{record.ingredients,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url != null">
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.image != null">
+        image = #{record.image,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cooktime != null">
+        cookTime = #{record.cooktime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recipeyield != null">
+        recipeYield = #{record.recipeyield,jdbcType=VARCHAR},
+      </if>
+      <if test="record.datepublished != null">
+        datePublished = #{record.datepublished,jdbcType=VARCHAR},
+      </if>
+      <if test="record.preptime != null">
+        prepTime = #{record.preptime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update recipes
+    set id = #{record.id,jdbcType=BIGINT},
+      `name` = #{record.name,jdbcType=VARCHAR},
+      ingredients = #{record.ingredients,jdbcType=VARCHAR},
+      url = #{record.url,jdbcType=VARCHAR},
+      image = #{record.image,jdbcType=VARCHAR},
+      cookTime = #{record.cooktime,jdbcType=VARCHAR},
+      recipeYield = #{record.recipeyield,jdbcType=VARCHAR},
+      datePublished = #{record.datepublished,jdbcType=VARCHAR},
+      prepTime = #{record.preptime,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qiwei.engine.domain.Recipe">
+    update recipes
+    <set>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="ingredients != null">
+        ingredients = #{ingredients,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null">
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="cooktime != null">
+        cookTime = #{cooktime,jdbcType=VARCHAR},
+      </if>
+      <if test="recipeyield != null">
+        recipeYield = #{recipeyield,jdbcType=VARCHAR},
+      </if>
+      <if test="datepublished != null">
+        datePublished = #{datepublished,jdbcType=VARCHAR},
+      </if>
+      <if test="preptime != null">
+        prepTime = #{preptime,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qiwei.engine.domain.Recipe">
+    update recipes
+    set `name` = #{name,jdbcType=VARCHAR},
+      ingredients = #{ingredients,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      image = #{image,jdbcType=VARCHAR},
+      cookTime = #{cooktime,jdbcType=VARCHAR},
+      recipeYield = #{recipeyield,jdbcType=VARCHAR},
+      datePublished = #{datepublished,jdbcType=VARCHAR},
+      prepTime = #{preptime,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

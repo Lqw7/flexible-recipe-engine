@@ -22,24 +22,24 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="org.mariadb.jdbc.Driver"
-                        connectionURL="jdbc:mariadb://ql1.host.cs.st-andrews.ac.uk:3306/ql1_test"
+                        connectionURL="jdbc:mariadb://ql1.host.cs.st-andrews.ac.uk:3306/ql1_engine"
                         userId="ql1"
                         password="Jm9B77Kk!9868T">
         </jdbcConnection>
 
-        <!-- domain类的位置 -->
+        <!-- Location of domain classes -->
         <javaModelGenerator targetProject="src\main\java"
                             targetPackage="com.qiwei.engine.domain"/>
 
-        <!-- mapper xml的位置 -->
+        <!-- Location of mapper xml  -->
         <sqlMapGenerator targetProject="src\main\resources"
                          targetPackage="mapper"/>
 
-        <!-- mapper类的位置 -->
+        <!-- Location of the mapper class -->
         <javaClientGenerator targetProject="src\main\java"
                              targetPackage="com.qiwei.engine.mapper"
                              type="XMLMAPPER"/>
 
-        <table tableName="demo" domainObjectName="Demo"/>
+        <table tableName="recipes" domainObjectName="Recipe"/>
     </context>
 </generatorConfiguration>
