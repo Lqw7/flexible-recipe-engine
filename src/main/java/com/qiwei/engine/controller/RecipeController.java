@@ -48,5 +48,10 @@ public class RecipeController {
     public List<Recipe> search(@RequestParam("ingredients") List<String> ingredients){
         return recipeService.searchByIngredient(ingredients);
     }
+
+
+    public List<Recipe> advancedSearch(List<String> compulsory, List<String> option) {
+        return recipeService.advancedSearch(compulsory,option);
+    }
 }
 

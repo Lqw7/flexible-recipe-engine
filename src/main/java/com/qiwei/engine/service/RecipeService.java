@@ -6,6 +6,7 @@ import com.qiwei.engine.mapper.RecipeMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -47,6 +48,26 @@ public class RecipeService {
         return recipeMapper.selectByExample(recipeExample);
     }
 
+
+    public List<Recipe> advancedSearch(List<String> compulsory, List<String> option){
+        RecipeExample recipeExample = new RecipeExample();
+        RecipeExample.Criteria criteria = recipeExample.createCriteria();
+        List<Recipe> result = new ArrayList<>();
+        List<Recipe> resultCom = new ArrayList<>();
+        List<Recipe> resultOpt = new ArrayList<>();
+        for(String c: compulsory){
+            criteria.andIngredientsLike("%" + c + "%");
+        }
+        resultCom = recipeMapper.selectByExample(recipeExample);
+        if(!resultCom.isEmpty()){
+             for(String o : option){
+                 criteria.andIngredientsLike("%" + o + "%");
+             }
+        } else {
+            result = resultCom;
+        }
+        return result;
+    }
 
 
 

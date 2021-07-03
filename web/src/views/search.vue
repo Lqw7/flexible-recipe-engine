@@ -42,18 +42,46 @@
           </a-select-option>
         </a-select>
       </div>
+    <div id="result">
+      <a-list item-layout="horizontal" :data-source="data">
+        <template #renderItem="{ item }">
+          <a-list-item>
+            <a-list-item-meta
+                description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+            >
+              <template #title>
+                <a href="https://www.antdv.com/">{{ item.title }}</a>
+              </template>
+              <template #avatar>
+                <a-avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+              </template>
+            </a-list-item-meta>
+          </a-list-item>
+        </template>
+      </a-list>
+    </div>
   </a-layout>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+
+import {defineComponent, onMounted, ref} from 'vue';
+
 export default defineComponent({
+
   setup() {
+    const recipe = ref();
     const value = ref<string>('');
     const onSearch = (searchValue: string) => {
       console.log('use value', searchValue);
       console.log('or use this.value', value.value);
     };
+    onMounted(() => {
+      axios.get(  "/ebook/list").then((response) => {
+        const data = response.data;
+        recipe.value = data.content.list;
+      });
+    });
 
     return {
       value,
