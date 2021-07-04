@@ -5,7 +5,7 @@ import com.qiwei.engine.domain.RecipeExample;
 import com.qiwei.engine.mapper.RecipeMapper;
 import com.qiwei.engine.req.RecipeReq;
 import com.qiwei.engine.resp.RecipeResp;
-import org.springframework.beans.BeanUtils;
+import com.qiwei.engine.util.CopyUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,13 +20,8 @@ public class RecipeService {
 
     public List<RecipeResp> list(){
         List<Recipe> recipeList = recipeMapper.selectByExample(null);
-        List<RecipeResp> respList = new ArrayList<>();
-        for(Recipe recipe : recipeList){
-            RecipeResp recipeResp = new RecipeResp();
-            BeanUtils.copyProperties(recipe,recipeResp);
-            respList.add(recipeResp);
-        }
-        return respList;
+        List<RecipeResp> list = CopyUtil.copyList(recipeList, RecipeResp.class);
+        return list;
     }
 
 
@@ -35,11 +30,13 @@ public class RecipeService {
      * @param
      * @return
      */
-    public List<Recipe> searchByName(RecipeReq req) {
+    public List<RecipeResp> searchByName(RecipeReq req) {
         RecipeExample recipeExample = new RecipeExample();
         RecipeExample.Criteria criteria = recipeExample.createCriteria();
         criteria.andNameLike("%" + req.getName() + "%");
-        return recipeMapper.selectByExample(recipeExample);
+        List<Recipe> recipeList = recipeMapper.selectByExample(recipeExample);
+        List<RecipeResp> list = CopyUtil.copyList(recipeList, RecipeResp.class);
+        return list;
     }
 
     /**
@@ -47,7 +44,7 @@ public class RecipeService {
      * @param ingredients
      * @return
      */
-    public List<Recipe> searchByIngredient(List<String> ingredients){
+    public List<RecipeResp> searchByIngredient(List<String> ingredients){
 
         RecipeExample recipeExample = new RecipeExample();
         RecipeExample.Criteria criteria = recipeExample.createCriteria();
@@ -55,7 +52,9 @@ public class RecipeService {
         for(String i: ingredients){
             criteria.andIngredientsLike("%" + i + "%");
         }
-        return recipeMapper.selectByExample(recipeExample);
+        List<Recipe> recipeList = recipeMapper.selectByExample(recipeExample);
+        List<RecipeResp> list = CopyUtil.copyList(recipeList, RecipeResp.class);
+        return list;
     }
 
 
@@ -80,9 +79,10 @@ public class RecipeService {
     }
 
 
-    public Recipe searchById(RecipeReq req){
-          Recipe recipe =  recipeMapper.selectByPrimaryKey(req.getId());
-          return recipe;
+    public RecipeResp searchById(RecipeReq req){
+        Recipe recipe = recipeMapper.selectByPrimaryKey(req.getId());
+        RecipeResp recipeResp = CopyUtil.copy(recipe, RecipeResp.class);
+        return recipeResp;
     }
 
 
