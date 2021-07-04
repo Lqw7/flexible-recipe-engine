@@ -70,5 +70,11 @@ public class RecipeService {
     }
 
 
+    public Recipe searchById(Long id){
+          Recipe recipe =   recipeMapper.selectByPrimaryKey(id);
+          return recipe;
+    }
+
+
 
 }

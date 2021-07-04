@@ -1,6 +1,7 @@
 package com.qiwei.engine.controller;
 
 import com.qiwei.engine.domain.Recipe;
+import com.qiwei.engine.resp.CommonResp;
 import com.qiwei.engine.service.RecipeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,8 +24,11 @@ public class RecipeController {
      */
     @ApiOperation(value = "get all list")
     @GetMapping("/list")
-    public List<Recipe> list(){
-        return recipeService.list();
+    public CommonResp list(){
+        CommonResp<List<Recipe>> resp = new CommonResp<>();
+        List<Recipe> list = recipeService.list();
+        resp.setContent(list);
+        return resp;
     }
 
     /**
@@ -34,8 +38,11 @@ public class RecipeController {
      */
     @ApiOperation(value = "search By Name")
     @GetMapping("/searchByName/{name}")
-    public List<Recipe> searchByName(@PathVariable String name){
-        return recipeService.searchByName(name);
+    public CommonResp searchByName(@PathVariable String name){
+        CommonResp<List<Recipe>> resp = new CommonResp<>();
+        List<Recipe> list = recipeService.searchByName(name);
+        resp.setContent(list);
+        return resp;
     }
 
     /**
@@ -45,13 +52,21 @@ public class RecipeController {
      */
     @ApiOperation(value = "search By Ingredient")
     @GetMapping("/searchByIngredient")
-    public List<Recipe> search(@RequestParam("ingredients") List<String> ingredients){
-        return recipeService.searchByIngredient(ingredients);
+    public CommonResp search(@RequestParam("ingredients") List<String> ingredients){
+        CommonResp<List<Recipe>> resp = new CommonResp<>();
+        List<Recipe> list = recipeService.searchByIngredient(ingredients);
+        resp.setContent(list);
+        return resp;
     }
 
 
     public List<Recipe> advancedSearch(List<String> compulsory, List<String> option) {
         return recipeService.advancedSearch(compulsory,option);
+    }
+    @ApiOperation(value = "search By id")
+    @GetMapping("/searchByName")
+    public Recipe searchByName(@RequestParam("id") Long id){
+        return recipeService.searchById(id);
     }
 }
 
