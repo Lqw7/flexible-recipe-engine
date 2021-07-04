@@ -4,8 +4,10 @@ GET http://127.0.0.1:8888/hello
 GET http://127.0.0.1:8888/recipe/list
 
 ###
-GET http://127.0.0.1:8888/recipe/searchByName/Sandwich
+GET http://127.0.0.1:8888/recipe/searchByName?name=Sandwich
 
+###
+GET http://localhost:8888/recipe/searchById?id=1
 
 ###
 GET http://127.0.0.1:8888/recipe/searchByIngredient?ingredients=Eggs
@@ -16,5 +18,3 @@ GET http://127.0.0.1:8888/recipe/searchByIngredient?ingredients=Eggs,Butter
 ###
 GET http://127.0.0.1:8888/recipe/searchByIngredient?ingredients=Eggs,Mayonnaise,Pepper
 
-###
-GET http://localhost:8888/recipe/searchByName?id=1

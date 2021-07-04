@@ -3,6 +3,9 @@ package com.qiwei.engine.service;
 import com.qiwei.engine.domain.Recipe;
 import com.qiwei.engine.domain.RecipeExample;
 import com.qiwei.engine.mapper.RecipeMapper;
+import com.qiwei.engine.req.RecipeReq;
+import com.qiwei.engine.resp.RecipeResp;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,20 +18,27 @@ public class RecipeService {
     @Resource
     RecipeMapper recipeMapper;
 
-    public List<Recipe> list(){
-        return recipeMapper.selectByExample(null);
+    public List<RecipeResp> list(){
+        List<Recipe> recipeList = recipeMapper.selectByExample(null);
+        List<RecipeResp> respList = new ArrayList<>();
+        for(Recipe recipe : recipeList){
+            RecipeResp recipeResp = new RecipeResp();
+            BeanUtils.copyProperties(recipe,recipeResp);
+            respList.add(recipeResp);
+        }
+        return respList;
     }
 
 
     /**
      * search By Name
-     * @param name
+     * @param
      * @return
      */
-    public List<Recipe> searchByName(String name) {
+    public List<Recipe> searchByName(RecipeReq req) {
         RecipeExample recipeExample = new RecipeExample();
         RecipeExample.Criteria criteria = recipeExample.createCriteria();
-        criteria.andNameLike("%" + name + "%");
+        criteria.andNameLike("%" + req.getName() + "%");
         return recipeMapper.selectByExample(recipeExample);
     }
 
@@ -70,8 +80,8 @@ public class RecipeService {
     }
 
 
-    public Recipe searchById(Long id){
-          Recipe recipe =   recipeMapper.selectByPrimaryKey(id);
+    public Recipe searchById(RecipeReq req){
+          Recipe recipe =  recipeMapper.selectByPrimaryKey(req.getId());
           return recipe;
     }
 

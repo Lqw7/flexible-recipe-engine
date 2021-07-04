@@ -1,7 +1,9 @@
 package com.qiwei.engine.controller;
 
 import com.qiwei.engine.domain.Recipe;
+import com.qiwei.engine.req.RecipeReq;
 import com.qiwei.engine.resp.CommonResp;
+import com.qiwei.engine.resp.RecipeResp;
 import com.qiwei.engine.service.RecipeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,22 +27,22 @@ public class RecipeController {
     @ApiOperation(value = "get all list")
     @GetMapping("/list")
     public CommonResp list(){
-        CommonResp<List<Recipe>> resp = new CommonResp<>();
-        List<Recipe> list = recipeService.list();
+        CommonResp<List<RecipeResp>> resp = new CommonResp<>();
+        List<RecipeResp> list = recipeService.list();
         resp.setContent(list);
         return resp;
     }
 
     /**
      * search recipe by name
-     * @param name
+     * @param
      * @return
      */
     @ApiOperation(value = "search By Name")
-    @GetMapping("/searchByName/{name}")
-    public CommonResp searchByName(@PathVariable String name){
+    @GetMapping("/searchByName")
+    public CommonResp searchByName(RecipeReq req){
         CommonResp<List<Recipe>> resp = new CommonResp<>();
-        List<Recipe> list = recipeService.searchByName(name);
+        List<Recipe> list = recipeService.searchByName(req);
         resp.setContent(list);
         return resp;
     }
@@ -64,9 +66,9 @@ public class RecipeController {
         return recipeService.advancedSearch(compulsory,option);
     }
     @ApiOperation(value = "search By id")
-    @GetMapping("/searchByName")
-    public Recipe searchByName(@RequestParam("id") Long id){
-        return recipeService.searchById(id);
+    @GetMapping("/searchById")
+    public Recipe searchById(RecipeReq recipeReq){
+        return recipeService.searchById(recipeReq);
     }
 }
 
