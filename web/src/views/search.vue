@@ -3,18 +3,6 @@
       <div id="title">
         <p>Find recipes by ingredients</p>
       </div>
-      <div id="search" >
-        <a-input-search
-            v-model:value="value"
-            placeholder="input ingredient"
-            enter-button="Add"
-            size="large"
-            @search="onSearch"
-        />
-      </div>
-      <div id="test1">
-        <p>test</p>
-      </div>
       <div id="select1">
         <a-select
             v-model:value="value"
@@ -28,24 +16,23 @@
           </a-select-option>
         </a-select>
       </div>
-      <div id="select2">
-        <a-select
-            mode="multiple"
-            :size="size"
-            placeholder="Please select"
-            v-model:value="value2"
-            style="width: 200px"
-            @popupScroll="popupScroll"
-        >
-          <a-select-option v-for="i in 25" :key="(i + 9).toString(36) + i">
-            {{ (i + 9).toString(36) + i }}
-          </a-select-option>
-        </a-select>
-      </div>
     <div id="result">
-      <pre>
-        {{recipe}}
-      </pre>
+      <a-list size="large" item-layout="horizontal" :data-source="recipe">
+        <template #renderItem="{ item }">
+          <a-list-item>
+            <a-list-item-meta
+                :description="item.ingredients"
+            >
+              <template #title>
+                <a :href="item.url" target="_blank">{{ item.name }}</a>
+              </template>
+              <template #avatar>
+                <a-avatar :src="item.image" />
+              </template>
+            </a-list-item-meta>
+          </a-list-item>
+        </template>
+      </a-list>
     </div>
   </a-layout>
 </template>
@@ -58,14 +45,9 @@ export default defineComponent({
 
   setup() {
     const recipe = ref();
-    const value = ref<string>('');
-    const onSearch = (searchValue: string) => {
-      console.log('use value', searchValue);
-      console.log('or use this.value', value.value);
-    };
     onMounted(() => {
       console.log("onMounted")
-      axios.get("http://localhost:8888/recipe/searchByName?id=1").then((response: any) => {
+      axios.get("http://127.0.0.1:8888/recipe/searchByName?name=Sandwich").then((response: any) => {
         console.log(response)
         const data = response.data;
         recipe.value = data.content;
@@ -73,11 +55,20 @@ export default defineComponent({
 
     });
 
+    const handleChange = (value: string[]) => {
+      console.log(`selected ${value}`);
+      axios.get("http://127.0.0.1:8888/recipe/searchByIngredient?ingredients=" + value).then((response: any) => {
+        console.log(response)
+        const data = response.data;
+        recipe.value = data.content;
+      });
+
+    }
+
 
     return {
       recipe,
-      value,
-      onSearch,
+      handleChange
     };
   },
 });
@@ -94,11 +85,6 @@ export default defineComponent({
   color: #141414;
   margin-top: 80px;
 }
-#search{
-  height: 100px;
-  width:650px;
-  margin: 0 auto;
-}
 #test1 p{
   font-size: 25px;
   font-weight: bold;
@@ -113,9 +99,8 @@ export default defineComponent({
   margin: 0 auto;
 }
 
-#select2{
-  height: 120px;
-  width:550px;
+#result{
+  width:1250px;
   margin: 0 auto;
 }
 

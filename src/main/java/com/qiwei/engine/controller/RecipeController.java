@@ -35,7 +35,7 @@ public class RecipeController {
 
     /**
      * search recipe by name
-     * @param
+     * @param req
      * @return
      */
     @ApiOperation(value = "search By Name")
@@ -44,6 +44,20 @@ public class RecipeController {
         CommonResp<List<RecipeResp>> resp = new CommonResp<>();
         List<RecipeResp> list = recipeService.searchByName(req);
         resp.setContent(list);
+        return resp;
+    }
+
+    /**
+     * search By Id
+     * @param recipeReq
+     * @return
+     */
+    @ApiOperation(value = "search By id")
+    @GetMapping("/searchById")
+    public CommonResp searchById(RecipeReq recipeReq){
+        CommonResp<RecipeResp> resp = new CommonResp<>();
+        RecipeResp recipeResp = recipeService.searchById(recipeReq);
+        resp.setContent(recipeResp);
         return resp;
     }
 
@@ -65,10 +79,6 @@ public class RecipeController {
     public List<Recipe> advancedSearch(List<String> compulsory, List<String> option) {
         return recipeService.advancedSearch(compulsory,option);
     }
-    @ApiOperation(value = "search By id")
-    @GetMapping("/searchById")
-    public RecipeResp searchById(RecipeReq recipeReq){
-        return recipeService.searchById(recipeReq);
-    }
+
 }
 
