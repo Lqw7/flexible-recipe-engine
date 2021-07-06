@@ -71,11 +71,30 @@ public class RecipeController {
     public CommonResp search(@RequestParam("ingredients") List<String> ingredients){
         CommonResp<List<RecipeResp>> resp = new CommonResp<>();
         List<RecipeResp> list = recipeService.searchByIngredient(ingredients);
-        resp.setContent(list);
+        if(!list.isEmpty()){
+            resp.setContent(list);
+        } else {
+            resp.setContent(list);
+            resp.setSuccess(false);
+            resp.setMessage("No Data");
+        }
+
         return resp;
     }
 
+    /**
+     * get Random Recipes
+     * @return
+     */
+    @ApiOperation(value = "get Random Recipes")
+    @GetMapping("/getRandomRecipes")
+    public CommonResp getRandomRecipes(){
+        CommonResp<List<RecipeResp>> resp = new CommonResp<>();
+        List<RecipeResp> list = recipeService.getRandomRecipes();
+        resp.setContent(list);
+        return resp;
 
+    }
     public List<Recipe> advancedSearch(List<String> compulsory, List<String> option) {
         return recipeService.advancedSearch(compulsory,option);
     }

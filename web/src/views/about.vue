@@ -1,29 +1,46 @@
 <template>
   <div class="about">
-    <a-list item-layout="horizontal" :data-source="recipe">
+    <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="recipe">
       <template #renderItem="{ item }">
-        <a-list-item>
-          <a-list-item-meta
-              :description="item.description"
-          >
+        <a-list-item key="item.title">
+          <template #actions>
+          <span v-for="{ type, text } in actions" :key="type">
+            <component v-bind:is="type" style="margin-right: 8px" />
+            {{ text }}
+          </span>
+          </template>
+          <template #extra>
+            <img
+                width="272"
+                alt="logo"
+                :src="item.image"
+            />
+          </template>
+          <a-list-item-meta :description="item.description">
             <template #title>
               <a :href="item.url" target="_blank">{{ item.name }}</a>
             </template>
-            <template #avatar>
-              <a-avatar :src="item.image" />
-            </template>
           </a-list-item-meta>
+          {{ item.ingredients }}
         </a-list-item>
       </template>
     </a-list>
   </div>
 </template>
 
-<script>
-import axios from 'axios';
-import {defineComponent, onMounted, ref} from 'vue';
-export default defineComponent({
 
+
+<script lang="ts">
+import { StarOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons-vue';
+import { defineComponent, onMounted, ref } from 'vue';
+import axios from 'axios';
+
+export default defineComponent({
+  components: {
+    StarOutlined,
+    LikeOutlined,
+    MessageOutlined,
+  },
   setup() {
     const recipe = ref();
     onMounted(() => {
@@ -33,14 +50,22 @@ export default defineComponent({
         const data = response.data;
         recipe.value = data.content;
       });
-
     });
+
+    const actions: Record<string, string>[] = [
+      { type: 'StarOutlined', text: '156' },
+      { type: 'LikeOutlined', text: '156' },
+      { type: 'MessageOutlined', text: '2' },
+    ];
     return {
       recipe,
+      actions,
     };
   },
 });
 </script>
+
+
 
 <style>
 .about{

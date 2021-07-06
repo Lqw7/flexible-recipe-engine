@@ -9,8 +9,7 @@ import com.qiwei.engine.util.CopyUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class RecipeService {
@@ -18,6 +17,10 @@ public class RecipeService {
     @Resource
     RecipeMapper recipeMapper;
 
+    /**
+     * get all recipes
+     * @return
+     */
     public List<RecipeResp> list(){
         List<Recipe> recipeList = recipeMapper.selectByExample(null);
         List<RecipeResp> list = CopyUtil.copyList(recipeList, RecipeResp.class);
@@ -78,11 +81,32 @@ public class RecipeService {
         return result;
     }
 
-
+    /**
+     * search By Id
+     * @param req
+     * @return
+     */
     public RecipeResp searchById(RecipeReq req){
         Recipe recipe = recipeMapper.selectByPrimaryKey(req.getId());
         RecipeResp recipeResp = CopyUtil.copy(recipe, RecipeResp.class);
         return recipeResp;
     }
+
+    public List<RecipeResp> getRandomRecipes(){
+        Random random= new Random();
+        Set<Integer> result= new LinkedHashSet<Integer>();
+        while (result.size() < 10){
+            Integer next = random.nextInt(873) + 1;
+            result.add(next);
+        }
+        List<Recipe> data = new ArrayList<>();
+        for(Integer i : result){
+            Long l = i.longValue();
+            data.add(recipeMapper.selectByPrimaryKey(l));
+        }
+        List<RecipeResp> list = CopyUtil.copyList(data, RecipeResp.class);
+        return list;
+    }
+
 
 }
