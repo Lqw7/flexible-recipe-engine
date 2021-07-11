@@ -60,25 +60,62 @@ public class RecipeService {
         return list;
     }
 
-
-    public List<Recipe> advancedSearch(List<String> compulsory, List<String> option){
+    /**
+     *
+     * @param necessary necessary ingredients
+     * @param option optional ingredients
+     * @return
+     */
+    public List<RecipeResp> advancedSearch(List<String> necessary, List<String> option){
         RecipeExample recipeExample = new RecipeExample();
         RecipeExample.Criteria criteria = recipeExample.createCriteria();
-        List<Recipe> result = new ArrayList<>();
-        List<Recipe> resultCom = new ArrayList<>();
-        List<Recipe> resultOpt = new ArrayList<>();
-        for(String c: compulsory){
-            criteria.andIngredientsLike("%" + c + "%");
+
+        List<Recipe> searchResult = new ArrayList<>();
+        //list is used to store final result
+        List<RecipeResp> list = new ArrayList<>();
+
+        //Add the necessary ingredients to the search criteria
+        for(String n: necessary){
+            criteria.andIngredientsLike("%" + n + "%");
         }
-        resultCom = recipeMapper.selectByExample(recipeExample);
-        if(!resultCom.isEmpty()){
-             for(String o : option){
-                 criteria.andIngredientsLike("%" + o + "%");
-             }
+
+        //Search results for necessary use of ingredients
+        List<Recipe> necessaryList = recipeMapper.selectByExample(recipeExample);
+
+        Set<Recipe> searchSet = new HashSet();
+         /*
+        if(!necessaryList.isEmpty()){
+            for(String o : option){
+
+            }
+        }*/
+
+        if(!necessaryList.isEmpty()){
+            //if Search results for necessary ingredients is not empty,
+            //it ill continue to find out if the necessaryList contains optional ingredients
+            for (Recipe r : necessaryList){
+                for(String o : option){
+                    if(r.getIngredients().contains(o)){
+                        searchSet.add(r);
+                    }
+                }
+            }
+            if(!searchSet.isEmpty()){
+                //if searchResult is not empty,it is returned as the final result
+                for(Recipe r : searchSet){
+                    searchResult.add(r);
+                }
+                list = CopyUtil.copyList(searchResult, RecipeResp.class);
+            } else {
+                //
+                list = CopyUtil.copyList(necessaryList, RecipeResp.class);
+            }
         } else {
-            result = resultCom;
+            //if Search results for necessary ingredients is empty
+            list = CopyUtil.copyList(necessaryList, RecipeResp.class);
         }
-        return result;
+
+        return list;
     }
 
     /**
@@ -92,11 +129,15 @@ public class RecipeService {
         return recipeResp;
     }
 
+    /**
+     * get Random Recipes
+     * @return
+     */
     public List<RecipeResp> getRandomRecipes(){
         Random random= new Random();
         Set<Integer> result= new LinkedHashSet<Integer>();
         while (result.size() < 10){
-            Integer next = random.nextInt(873) + 1;
+            Integer next = random.nextInt(879) + 1;
             result.add(next);
         }
         List<Recipe> data = new ArrayList<>();

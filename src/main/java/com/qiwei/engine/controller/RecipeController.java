@@ -1,13 +1,15 @@
 package com.qiwei.engine.controller;
 
-import com.qiwei.engine.domain.Recipe;
 import com.qiwei.engine.req.RecipeReq;
 import com.qiwei.engine.resp.CommonResp;
 import com.qiwei.engine.resp.RecipeResp;
 import com.qiwei.engine.service.RecipeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -95,8 +97,20 @@ public class RecipeController {
         return resp;
 
     }
-    public List<Recipe> advancedSearch(List<String> compulsory, List<String> option) {
-        return recipeService.advancedSearch(compulsory,option);
+
+    @ApiOperation(value = "advanced Search")
+    @GetMapping("advancedSearch")
+    public CommonResp advancedSearch(@RequestParam("necessary") List<String> necessary, @RequestParam("option") List<String> option){
+        CommonResp<List<RecipeResp>> resp = new CommonResp<>();
+        List<RecipeResp> list = recipeService.advancedSearch(necessary,option);
+        if(!list.isEmpty()){
+            resp.setContent(list);
+        } else {
+            resp.setContent(list);
+            resp.setSuccess(false);
+            resp.setMessage("No Data");
+        }
+        return resp;
     }
 
 }

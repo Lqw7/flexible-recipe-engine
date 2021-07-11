@@ -21,3 +21,9 @@ GET http://127.0.0.1:8888/recipe/searchByIngredient?ingredients=Eggs,Mayonnaise,
 ###
 GET http://localhost:8888/recipe/getRandomRecipes
 
+###
+GET http://localhost:8888/recipe/advancedSearch?necessary=Eggs,Mayonnaise,Lettuce&option=Vinegar,Steaks,Onion
+
+###
+GET http://localhost:8888/recipe/advancedSearch?necessary=Eggs&option=butter
+

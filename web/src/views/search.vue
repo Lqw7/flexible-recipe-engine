@@ -72,6 +72,7 @@ export default defineComponent({
       axios.get("/recipe/searchByIngredient?ingredients=" + value).then((response: any) => {
         console.log(response)
         const data = response.data;
+        recipe.value = null;
         recipe.value = data.content;
       });
 
