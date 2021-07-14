@@ -5,14 +5,25 @@
       </div>
       <div id="select1">
         <a-select
-            v-model:value="value"
+            v-model:value ="necessary"
             mode="tags"
             style="width: 100%"
-            placeholder="input ingredients"
+            placeholder="input necessary ingredients"
             @change="handleChange"
+
         >
         </a-select>
       </div>
+    <div id="select2">
+      <a-select
+          v-model:value="option"
+          mode="tags"
+          style="width: 100%"
+          placeholder="input optional ingredients"
+          @change="optionChange"
+      >
+      </a-select>
+    </div>
     <div id="result">
       <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="recipe">
         <template #renderItem="{ item }">
@@ -57,6 +68,8 @@ export default defineComponent({
 
   setup() {
     const recipe = ref();
+    let nece : string[];
+
     onMounted(() => {
       console.log("onMounted")
       axios.get("/recipe/getRandomRecipes").then((response: any) => {
@@ -67,9 +80,10 @@ export default defineComponent({
 
     });
 
-    const handleChange = (value: string[]) => {
-      console.log(`selected ${value}`);
-      axios.get("/recipe/searchByIngredient?ingredients=" + value).then((response: any) => {
+    const handleChange = (necessary: string[]) => {
+      console.log(`selected ${necessary}`);
+      nece = necessary;
+      axios.get("/recipe/searchByIngredient?ingredients=" + necessary).then((response: any) => {
         console.log(response)
         const data = response.data;
         recipe.value = null;
@@ -77,6 +91,18 @@ export default defineComponent({
       });
 
     }
+
+    const optionChange = (option: string[]) => {
+      console.log(`selected ${option}`);
+      axios.get("/recipe/advancedSearch?necessary=" + nece +"&option=" + option ).then((response: any) => {
+        console.log(response)
+        const data = response.data;
+        recipe.value = null;
+        recipe.value = data.content;
+      });
+
+    }
+
 
     const actions: Record<string, string>[] = [
       { type: 'StarOutlined', text: '156' },
@@ -87,6 +113,7 @@ export default defineComponent({
     return {
       recipe,
       handleChange,
+      optionChange,
       actions
     };
   },
@@ -104,20 +131,16 @@ export default defineComponent({
   color: #141414;
   margin-top: 80px;
 }
-#test1 p{
-  font-size: 25px;
-  font-weight: bold;
-  text-align: center;
-  font-family: "Microsoft YaHei";
-  color: #141414;
-  margin-top: 10px;
-}
 #select1{
   height: 120px;
   width:650px;
   margin: 0 auto;
 }
-
+#select2{
+  height: 120px;
+  width:650px;
+  margin: 0 auto;
+}
 #result{
   width:1250px;
   margin: 0 auto;

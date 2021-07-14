@@ -14,7 +14,7 @@
         <router-link to="/search">Search</router-link>
       </a-menu-item>
       <a-menu-item key="/about">
-        <router-link to="/about">About</router-link>
+        <router-link to="/about">Substitution</router-link>
       </a-menu-item>
     </a-menu>
   </a-layout-header>

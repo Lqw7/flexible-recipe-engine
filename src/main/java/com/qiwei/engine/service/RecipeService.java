@@ -83,12 +83,6 @@ public class RecipeService {
         List<Recipe> necessaryList = recipeMapper.selectByExample(recipeExample);
 
         Set<Recipe> searchSet = new HashSet();
-         /*
-        if(!necessaryList.isEmpty()){
-            for(String o : option){
-
-            }
-        }*/
 
         if(!necessaryList.isEmpty()){
             //if Search results for necessary ingredients is not empty,
@@ -148,6 +142,9 @@ public class RecipeService {
         List<RecipeResp> list = CopyUtil.copyList(data, RecipeResp.class);
         return list;
     }
+
+
+
 
 
 }

@@ -1,6 +1,22 @@
 <template>
   <div class="about">
-    <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="recipe">
+    <div id="title">
+      <p>Find Substitute ingredients</p>
+    </div>
+    <div id="select1">
+      <a-select
+          v-model:value ="value"
+          mode="tags"
+          style="width: 100%"
+          placeholder="input ingredients"
+          @change="handleChange"
+      >
+      </a-select>
+      <div id="result">
+        <a v-for="item in ingredient" v-bind:key="item.name" @click="query(item.name)">{{item.name}}</a>
+      </div>
+    </div>
+    <a-list item-layout="vertical" size="large" :data-source="recipe">
       <template #renderItem="{ item }">
         <a-list-item key="item.title">
           <template #actions>
@@ -43,14 +59,39 @@ export default defineComponent({
   },
   setup() {
     const recipe = ref();
-    onMounted(() => {
-      console.log("onMounted")
-      axios.get("http://127.0.0.1:8888/recipe/searchByName?name=Sandwich").then((response) => {
+    const ingredient = ref();
+
+    const handleChange = (value: string[]) => {
+      console.log(`selected ${value}`);
+      if(value.length == 0){
+        recipe.value = null;
+        ingredient.value = null;
+      } else{
+        axios.get("/recipe/searchByIngredient?ingredients=" + value).then((response: any) => {
+          console.log(response)
+          const data = response.data;
+          recipe.value = null;
+          recipe.value = data.content;
+        });
+        axios.get("/ingredient/searchSubstitution?name=" + value).then((response: any) => {
+          console.log(response)
+          const data = response.data;
+          ingredient.value = null;
+          ingredient.value = data.content;
+        });
+      }
+    }
+
+    const query = (name: string) => {
+      console.log(`selected ${name}`);
+      axios.get("/recipe/searchByIngredient?ingredients=" + name).then((response: any) => {
         console.log(response)
         const data = response.data;
+        recipe.value = null;
         recipe.value = data.content;
       });
-    });
+    };
+
 
     const actions: Record<string, string>[] = [
       { type: 'StarOutlined', text: '156' },
@@ -59,7 +100,11 @@ export default defineComponent({
     ];
     return {
       recipe,
-      actions,
+      ingredient,
+      query,
+      handleChange,
+      actions
+
     };
   },
 });
@@ -72,5 +117,24 @@ export default defineComponent({
   width: 1000px;
   height: auto;
   margin: auto;
+}
+
+#title p{
+  font-size: 34px;
+  font-weight: bold;
+  text-align: center;
+  font-family: "Microsoft YaHei";
+  color: #141414;
+  margin-top: 80px;
+}
+#select1{
+  height: 120px;
+  width:650px;
+  margin: 0 auto;
+}
+
+#result a{
+  float: left;
+  padding: 15px;
 }
 </style>
