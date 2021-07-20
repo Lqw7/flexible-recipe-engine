@@ -17,4 +17,22 @@ public class DemoService {
      public List<Demo> list(){
          return demoMapper.selectByExample(null);
      }
+
+
+    /**
+     * Save
+     */
+    public void save(Demo demo){
+            //新增
+            demoMapper.insert(demo);
+
+
+
+    }
+
+    public void update(Demo demo){
+        demoMapper.updateByPrimaryKey(demo);
+
+    }
+
 }

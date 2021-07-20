@@ -16,6 +16,9 @@
       <a-menu-item key="/about">
         <router-link to="/about">Substitution</router-link>
       </a-menu-item>
+      <a-menu-item key="/admin">
+        <router-link to="/admin">Manage Substitution</router-link>
+      </a-menu-item>
     </a-menu>
   </a-layout-header>
 </template>

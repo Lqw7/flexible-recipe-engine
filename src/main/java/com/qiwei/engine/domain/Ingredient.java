@@ -1,7 +1,5 @@
 package com.qiwei.engine.domain;
 
-import java.util.Objects;
-
 public class Ingredient {
     private String name;
 
@@ -33,18 +31,5 @@ public class Ingredient {
         sb.append(", category=").append(category);
         sb.append("]");
         return sb.toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Ingredient that = (Ingredient) o;
-        return Objects.equals(name, that.name) && Objects.equals(category, that.category);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, category);
     }
 }

@@ -1,34 +1,37 @@
-GET http://127.0.0.1:8888/hello
+GET http://127.0.0.1:8889/hello
 
 ### get the all recipes
-GET http://127.0.0.1:8888/recipe/list
+GET http://127.0.0.1:8889/recipe/list
 
 ###
-GET http://127.0.0.1:8888/recipe/searchByName?name=Sandwich
+GET http://127.0.0.1:8889/recipe/searchByName?name=Sandwich
 
 ###
-GET http://localhost:8888/recipe/searchById?id=1
+GET http://localhost:8889/recipe/searchById?id=1
 
 ###
-GET http://127.0.0.1:8888/recipe/searchByIngredient?ingredients=cabbage
+GET http://127.0.0.1:8889/recipe/searchByIngredient?ingredients=cabbage
 
 ###
-GET http://127.0.0.1:8888/recipe/searchByIngredient?ingredients=Eggs,Butter
+GET http://127.0.0.1:8889/recipe/searchByIngredient?ingredients=Eggs,Butter
 
 ###
-GET http://127.0.0.1:8888/recipe/searchByIngredient?ingredients=Eggs,Mayonnaise,Lettuce
+GET http://127.0.0.1:8889/recipe/searchByIngredient?ingredients=Eggs,Mayonnaise,Lettuce
 
 ###
-GET http://localhost:8888/recipe/getRandomRecipes
+GET http://localhost:8889/recipe/getRandomRecipes
 
 ###
-GET http://localhost:8888/recipe/advancedSearch?necessary=Eggs,Mayonnaise,Lettuce&option=Vinegar,Steaks,Onion
+GET http://localhost:8889/recipe/advancedSearch?necessary=Eggs,Mayonnaise,Lettuce&option=Vinegar,Steaks,Onion
 
 ###
-GET http://localhost:8888/recipe/advancedSearch?necessary=Eggs,Mayonnaise&option=Steaks
+GET http://localhost:8889/recipe/advancedSearch?necessary=Eggs,Mayonnaise&option=Steaks
 
 ###
-GET http://localhost:8888/recipe/advancedSearch?necessary=toast&option=butter
+GET http://localhost:8889/recipe/advancedSearch?necessary=toast&option=butter
 
 ###
-GET http://localhost:8888/ingredient/searchSubstitution?name=butter
+GET http://localhost:8889/ingredient/searchSubstitution?name=butter
+
+###
+GET http://localhost:8889/ingredient/getAllSubstitutionList

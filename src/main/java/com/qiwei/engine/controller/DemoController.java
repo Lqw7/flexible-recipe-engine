@@ -2,10 +2,10 @@ package com.qiwei.engine.controller;
 
 
 import com.qiwei.engine.domain.Demo;
+import com.qiwei.engine.resp.CommonResp;
 import com.qiwei.engine.service.DemoService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -20,6 +20,22 @@ public class DemoController {
     @GetMapping("/list")
     public List<Demo> list(){
         return demoService.list();
+    }
+
+    @ApiOperation(value = "save demo")
+    @PostMapping("/save")
+    public CommonResp save(@RequestBody Demo req){
+        CommonResp resp = new CommonResp<>();
+        demoService.save(req);
+        return resp;
+    }
+
+    @ApiOperation(value = "demo update")
+    @PostMapping("/update")
+    public CommonResp update(@RequestBody Demo req){
+        CommonResp resp = new CommonResp<>();
+        demoService.update(req);
+        return resp;
     }
 
 }

@@ -1,6 +1,6 @@
 package com.qiwei.engine.req;
 
-public class IngredientReq  {
+public class IngredientQueryReq extends PageReq{
     private String name;
 
     private String category;
