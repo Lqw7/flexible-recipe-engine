@@ -36,9 +36,10 @@
             </template>
             <template #extra>
               <img
+                  @error="imgError(item)"
                   width="272"
-                  alt="logo"
                   :src="item.image"
+                  alt="logo"
               />
             </template>
             <a-list-item-meta :description="item.description">
@@ -58,6 +59,7 @@
 import axios from 'axios';
 import {defineComponent, onMounted, ref} from 'vue';
 import { StarOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons-vue';
+import {Tool} from "@/util/tool";
 
 export default defineComponent({
   components: {
@@ -69,6 +71,7 @@ export default defineComponent({
   setup() {
     const recipe = ref();
     let nece : string[];
+    let opt : string[];
 
     onMounted(() => {
       console.log("onMounted")
@@ -81,28 +84,42 @@ export default defineComponent({
     });
 
     const handleChange = (necessary: string[]) => {
-      console.log(`selected ${necessary}`);
-      nece = necessary;
-      axios.get("/recipe/searchByIngredient?ingredients=" + necessary).then((response: any) => {
-        console.log(response)
-        const data = response.data;
-        recipe.value = null;
-        recipe.value = data.content;
-      });
+
+        nece = necessary;
+
+        console.log(`selected ${necessary}`);
+
+         axios.get("/recipe/searchByIngredient?ingredients=" + necessary).then((response: any) => {
+            console.log(response)
+            const data = response.data;
+            recipe.value = null;
+            recipe.value = data.content;
+          });
+
 
     }
 
     const optionChange = (option: string[]) => {
       console.log(`selected ${option}`);
-      axios.get("/recipe/advancedSearch?necessary=" + nece +"&option=" + option ).then((response: any) => {
-        console.log(response)
-        const data = response.data;
-        recipe.value = null;
-        recipe.value = data.content;
-      });
-
+      if(option.length != 0){
+        opt = option;
+        axios.get("/recipe/advancedSearch?necessary=" + nece +"&option=" + option ).then((response: any) => {
+          console.log(response)
+          const data = response.data;
+          recipe.value = null;
+          recipe.value = data.content;
+        });
+      } else {
+        handleChange(nece);
+      }
     }
 
+    /**
+     * imgerror
+     */
+    const imgError = (item:any) => {
+      item.image = "https://realfood.tesco.com/media/images/RFO-380x250-Sri-Lankan-style-sweet-potato-curry-01715a97-f294-44c7-9789-e5db773f55f5-0-380x250.jpg";
+    };
 
     const actions: Record<string, string>[] = [
       { type: 'StarOutlined', text: '156' },
@@ -114,7 +131,8 @@ export default defineComponent({
       recipe,
       handleChange,
       optionChange,
-      actions
+      actions,
+      imgError
     };
   },
 });

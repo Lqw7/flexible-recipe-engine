@@ -30,17 +30,6 @@ public class IngredientService {
 
 
     public List<IngredientResp> searchSubstitution(IngredientReq req){
-        List<Ingredient> substituteList = getSubstituteIngredient(req);
-        List<IngredientResp> list = CopyUtil.copyList(substituteList, IngredientResp.class);
-        return list;
-    }
-
-    /**
-     * get Substitute Ingredient
-     * @param req
-     * @return
-     */
-    public List<Ingredient> getSubstituteIngredient(IngredientReq req){
         Ingredient ingredient = ingredientMapper.selectByPrimaryKey(req.getName());
         IngredientExample ingredientExample = new IngredientExample();
         IngredientExample.Criteria criteria = ingredientExample.createCriteria();
@@ -53,7 +42,8 @@ public class IngredientService {
                 iterator.remove();
             }
         }
-        return substitutionsList;
+        List<IngredientResp> list = CopyUtil.copyList(substitutionsList, IngredientResp.class);
+        return list;
     }
 
     /**

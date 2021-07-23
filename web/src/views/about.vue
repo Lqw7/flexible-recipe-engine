@@ -13,7 +13,7 @@
       >
       </a-select>
       <div id="result">
-        <a v-for="item in ingredient" v-bind:key="item.name" @click="query(item.name)">{{item.name}}</a>
+        <a-tag v-for="item in ingredient" v-bind:key="item.name" @click="query(item.name)">{{item.name}}</a-tag>
       </div>
     </div>
     <a-list item-layout="vertical" size="large" :data-source="recipe">
@@ -30,6 +30,7 @@
                 width="272"
                 alt="logo"
                 :src="item.image"
+                @error="imgError(item)"
             />
           </template>
           <a-list-item-meta :description="item.description">
@@ -60,6 +61,7 @@ export default defineComponent({
   setup() {
     const recipe = ref();
     const ingredient = ref();
+    const s = ref();
 
     const handleChange = (value: string[]) => {
       console.log(`selected ${value}`);
@@ -92,6 +94,12 @@ export default defineComponent({
       });
     };
 
+    /**
+     * imgerror
+     */
+    const imgError = (item:any) => {
+      item.image = "https://realfood.tesco.com/media/images/RFO-380x250-Sri-Lankan-style-sweet-potato-curry-01715a97-f294-44c7-9789-e5db773f55f5-0-380x250.jpg";
+    };
 
     const actions: Record<string, string>[] = [
       { type: 'StarOutlined', text: '156' },
@@ -103,7 +111,8 @@ export default defineComponent({
       ingredient,
       query,
       handleChange,
-      actions
+      actions,
+      imgError
 
     };
   },
