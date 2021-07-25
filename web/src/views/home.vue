@@ -23,13 +23,16 @@
     </div>
     <div id="recipe">
       <div class="card" v-for="item in columns" v-bind:key="item.title">
-        <a-card hoverable style="width: 250px"  >
-          <template #cover>
-            <img alt="example" :src="item.src" />
-          </template>
-          <a-card-meta :title="item.title">
-          </a-card-meta>
-        </a-card>
+        <router-link :to="'/show?name=' + item.title">
+          <a-card hoverable style="width: 250px"  >
+            <template #cover>
+              <img alt="example" :src="item.src" />
+            </template>
+            <a-card-meta :title="item.title">
+              recipes
+            </a-card-meta>
+          </a-card>
+        </router-link>
       </div>
     </div>
   </a-layout-content>
@@ -50,19 +53,19 @@ export default defineComponent({
 
     const columns = [
       {
-        title: 'Curry recipes',
+        title: 'Curry',
         src: 'https://realfood.tesco.com/media/images/RFO-380x250-Sri-Lankan-style-sweet-potato-curry-01715a97-f294-44c7-9789-e5db773f55f5-0-380x250.jpg'
       },
       {
-        title: 'Pizza recipes',
+        title: 'Pizza',
         src: 'https://realfood.tesco.com/media/images/RFO-380x250-Sunshine-pizza-25662a25-7865-4df5-ae78-68c348b921c9-0-380x250.jpg'
       },
       {
-        title: 'Bread recipes',
+        title: 'Bread',
         src: 'https://realfood.tesco.com/media/images/RFO-380x250-Cornish-potato-and-rosemary-focaccia-520446b3-1e5d-4135-b837-9a4c0778e7fe-0-380x250.jpg'
       },
       {
-        title: 'Salad recipes',
+        title: 'Salad',
         src: 'https://realfood.tesco.com/media/images/RFO-380x250-CobbSalad-05924e5c-387f-4829-b7d6-972a208c640b-0-380x250.jpg'
       }
     ];
