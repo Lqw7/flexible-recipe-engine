@@ -28,7 +28,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Admin
   },
   {
-    path: '/show/:title',
+    path: '/show',
     name: 'Show',
     component: Show
   }
