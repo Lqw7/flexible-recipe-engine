@@ -1,5 +1,19 @@
 <template>
   <a-layout-content >
+    <div id="user">
+      <a-form layout="inline" :model="param">
+        <a-form-item>
+          <a-button type="primary" @click="register()">
+            Register
+          </a-button>
+        </a-form-item>
+        <a-form-item>
+          <a-button type="primary" @click="login()">
+            Login
+          </a-button>
+        </a-form-item>
+      </a-form>
+    </div>
     <div id="carousel-box" style="margin-top: 50px">
       <a-carousel arrows>
         <template #prevArrow>
@@ -36,12 +50,32 @@
       </div>
     </div>
   </a-layout-content>
+  <a-modal
+      :title="tableTitle"
+      v-model:visible="modalVisible"
+      :confirm-loading="modalLoading"
+      @ok="handleModalOk"
+  >
+    <a-form :model="user" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+      <a-form-item label="Username">
+        <a-input v-model:value="user.loginName" />
+      </a-form-item>
+      <a-form-item label="Nickname">
+        <a-input v-model:value="user.name" />
+      </a-form-item>
+      <a-form-item label="Password">
+        <a-input v-model:value="user.password" />
+      </a-form-item>
+    </a-form>
+  </a-modal>
+
 </template>
 
 <script lang="ts">
 import { LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons-vue';
 import { defineComponent,ref } from 'vue';
-import router from "@/router";
+import axios from 'axios';
+import { message } from 'ant-design-vue';
 export default defineComponent({
   components: {
     LeftCircleOutlined,
@@ -49,8 +83,6 @@ export default defineComponent({
   },
 
   setup(){
-
-
     const columns = [
       {
         title: 'Curry',
@@ -70,8 +102,58 @@ export default defineComponent({
       }
     ];
 
+    // -------- form ---------
+    const user = ref();
+    const tableTitle = ref();
+    const modalVisible = ref(false);
+    const modalLoading = ref(false);
+    const handleModalOk = () => {
+      modalLoading.value = true;
+      console.log(tableTitle.value)
+      if(tableTitle.value == "Register"){
+        axios.post("/user/save", user.value).then((response) => {
+          modalLoading.value = false;
+          const data = response.data; // data = commonResp
+          if (data.success) {
+            modalVisible.value = false;
+            message.success("Registration successful");
+          } else {
+            console.log(data.message);
+            message.error(data.message);
+          }
+        });
+      }
+
+    };
+
+    /**
+     * register
+     */
+    const register = () => {
+      tableTitle.value = "Register"
+      modalVisible.value = true;
+      modalLoading.value = false;
+      user.value = {};
+    };
+
+    /**
+     * register
+     */
+    const login = () => {
+      tableTitle.value = "Login"
+      modalVisible.value = true;
+      user.value = {};
+    };
+
     return {
-      columns
+      columns,
+      handleModalOk,
+      register,
+      modalVisible,
+      modalLoading,
+      user,
+      tableTitle,
+      login
     }
   },
 
@@ -134,5 +216,8 @@ export default defineComponent({
   position: relative;
   float: left;
   margin-left: 40px;
+}
+#user {
+  margin-left: 1700px;
 }
 </style>

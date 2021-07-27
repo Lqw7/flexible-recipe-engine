@@ -47,7 +47,7 @@ export default defineComponent({
   setup() {
     const recipe = ref();
     const route = useRoute();
-    const name = ref<String>();
+    const name = ref();
     name.value = route.query.name
 
     onMounted(() => {
@@ -96,5 +96,9 @@ export default defineComponent({
   font-family: "Microsoft YaHei";
   color: #141414;
   margin-top: 30px;
+}
+#result{
+  width:1250px;
+  margin: 0 auto;
 }
 </style>

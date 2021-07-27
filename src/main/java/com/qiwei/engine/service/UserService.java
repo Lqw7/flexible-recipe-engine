@@ -29,12 +29,11 @@ public class UserService {
      */
     public void save(UserSaveReq req) {
         User user = CopyUtil.copy(req, User.class);
+        boolean b;
         if (ObjectUtils.isEmpty(req.getId())) {
             // 新增
             user.setId(snowFlake.nextId());
             userMapper.insert(user);
-        } else {
-
         }
     }
 
