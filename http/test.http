@@ -35,3 +35,9 @@ GET http://localhost:8889/ingredient/searchSubstitution?name=butter
 
 ###
 GET http://localhost:8889/ingredient/getAllSubstitutionList
+
+
+###
+
+GET http://localhost:8889/redis/get/75360707473969152
+Accept: application/json
