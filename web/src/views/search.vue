@@ -140,7 +140,7 @@ export default defineComponent({
 
 
 
-<style>
+<style scoped>
 #title p{
   font-size: 34px;
   font-weight: bold;

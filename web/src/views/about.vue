@@ -121,7 +121,7 @@ export default defineComponent({
 
 
 
-<style>
+<style scoped>
 .about{
   width: 1000px;
   height: auto;

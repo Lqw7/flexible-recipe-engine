@@ -83,7 +83,7 @@ export default defineComponent({
   },
 });
 </script>
-<style>
+<style scoped>
 #recipe-title {
   height: 100px;
   width: 200px;

@@ -40,6 +40,6 @@
                              targetPackage="com.qiwei.engine.mapper"
                              type="XMLMAPPER"/>
 
-        <table tableName="demo" domainObjectName="Demo"/>
+        <table tableName="user" domainObjectName="User"/>
     </context>
 </generatorConfiguration>
