@@ -124,6 +124,18 @@ export default defineComponent({
     // Login
     const login = () => {
       console.log("Start Login")
+      loginModalLoading.value = true;
+      loginUser.value.password = hexMd5(loginUser.value.password + KEY);
+      axios.post('/user/login', loginUser.value).then((response) => {
+        loginModalLoading.value = false;
+        const data = response.data;
+        if (data.success) {
+          loginModalVisible.value = false;
+          message.success("Login successful！");
+        } else {
+          message.error(data.message);
+        }
+      });
     };
 
     return {

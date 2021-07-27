@@ -1,14 +1,14 @@
 package com.qiwei.engine.req;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
 public class UserLoginReq {
 
-    @NotNull(message = "Loginname cannot be empty")
+    @NotEmpty(message = "Loginname cannot be empty")
     private String loginName;
 
-    @NotNull(message = "Password cannot be empty")
+    @NotEmpty(message = "Password cannot be empty")
     // @Length(min = 6, max = 20, message = "【密码】6~20位")
     @Pattern(regexp = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,32}$", message = "Password rule is incorrect")
     private String password;
