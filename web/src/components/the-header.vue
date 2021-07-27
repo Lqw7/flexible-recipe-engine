@@ -19,10 +19,13 @@
       <a-menu-item key="/admin">
         <router-link to="/admin">Manage Substitution</router-link>
       </a-menu-item>
-      <a class="register-menu" @click="showRegisterModal">
+      <a class="login-menu" v-show="loggedUser.id">
+        <span>Hello:{{loggedUser.name}}</span>
+      </a>
+      <a class="register-menu" v-show="!loggedUser.id" @click="showRegisterModal">
         <span>Register</span>
       </a>
-      <a class="login-menu" @click="showLoginModal">
+      <a class="login-menu" v-show="!loggedUser.id" @click="showLoginModal">
         <span>Login</span>
       </a>
     </a-menu>
@@ -78,6 +81,11 @@ export default defineComponent({
 
   setup(){
 
+    // Log in and save
+    const loggedUser = ref();
+    loggedUser.value = {};
+
+    //For login
     const loginUser = ref({
       loginName: "test",
       password: "test"
@@ -132,6 +140,7 @@ export default defineComponent({
         if (data.success) {
           loginModalVisible.value = false;
           message.success("Login successful！");
+          loggedUser.value = data.content;
         } else {
           message.error(data.message);
         }
@@ -148,7 +157,8 @@ export default defineComponent({
       showLoginModal,
       user,
       loginUser,
-      login
+      login,
+      loggedUser
     }
   },
 
