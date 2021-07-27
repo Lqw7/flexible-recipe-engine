@@ -81,10 +81,10 @@ public class IngredientService {
     public void save(IngredientSaveReq req){
         Ingredient ingredient = CopyUtil.copy(req,Ingredient.class);
         if(ObjectUtils.isEmpty(ingredientMapper.selectByPrimaryKey(req.getName()))){
-            //新增
+            //add
             ingredientMapper.insert(ingredient);
         } else{
-            //更新
+            //update
             ingredientMapper.updateByPrimaryKey(ingredient);
         }
 

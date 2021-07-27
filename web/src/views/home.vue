@@ -57,7 +57,7 @@
       @ok="handleModalOk"
   >
     <a-form :model="user" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-      <a-form-item label="Username">
+      <a-form-item label="Loginname">
         <a-input v-model:value="user.loginName" />
       </a-form-item>
       <a-form-item label="Nickname">
@@ -76,6 +76,8 @@ import { LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons-vue';
 import { defineComponent,ref } from 'vue';
 import axios from 'axios';
 import { message } from 'ant-design-vue';
+declare let hexMd5: any;
+declare let KEY: any;
 export default defineComponent({
   components: {
     LeftCircleOutlined,
@@ -111,6 +113,9 @@ export default defineComponent({
       modalLoading.value = true;
       console.log(tableTitle.value)
       if(tableTitle.value == "Register"){
+
+        user.value.password = hexMd5(user.value.password + KEY);
+
         axios.post("/user/save", user.value).then((response) => {
           modalLoading.value = false;
           const data = response.data; // data = commonResp
@@ -218,6 +223,6 @@ export default defineComponent({
   margin-left: 40px;
 }
 #user {
-  margin-left: 1700px;
+  margin-left: 85%;
 }
 </style>
