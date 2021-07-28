@@ -71,6 +71,7 @@ import { LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons-vue';
 import { defineComponent,ref } from 'vue';
 import axios from 'axios';
 import { message } from 'ant-design-vue';
+import store from "@/store";
 declare let hexMd5: any;
 declare let KEY: any;
 export default defineComponent({
@@ -141,6 +142,7 @@ export default defineComponent({
           loginModalVisible.value = false;
           message.success("Login successful！");
           loggedUser.value = data.content;
+          store.commit("setUser", loggedUser.value);
         } else {
           message.error(data.message);
         }
