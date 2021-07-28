@@ -68,7 +68,7 @@
 
 <script lang="ts">
 import { LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons-vue';
-import { defineComponent,ref } from 'vue';
+import {computed, defineComponent, ref} from 'vue';
 import axios from 'axios';
 import { message } from 'ant-design-vue';
 import store from "@/store";
@@ -83,8 +83,8 @@ export default defineComponent({
   setup(){
 
     // Log in and save
-    const loggedUser = ref();
-    loggedUser.value = {};
+    const loggedUser = computed(() => store.state.user);
+
 
     //For login
     const loginUser = ref({
@@ -141,7 +141,6 @@ export default defineComponent({
         if (data.success) {
           loginModalVisible.value = false;
           message.success("Login successful！");
-          loggedUser.value = data.content;
           store.commit("setUser", loggedUser.value);
         } else {
           message.error(data.message);
