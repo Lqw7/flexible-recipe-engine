@@ -141,7 +141,7 @@ export default defineComponent({
         if (data.success) {
           loginModalVisible.value = false;
           message.success("Login successful！");
-          store.commit("setUser", loggedUser.value);
+          store.commit("setUser", data.content);
         } else {
           message.error(data.message);
         }
