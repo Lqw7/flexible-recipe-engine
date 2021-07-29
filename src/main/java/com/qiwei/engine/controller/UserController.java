@@ -51,7 +51,7 @@ public class UserController {
         Long token = snowFlake.nextId();
         LOG.info("Generate a single sign-on token：{}，and put in redis", token);
         userLoginResp.setToken(token.toString());
-        redisTemplate.opsForValue().set(token, JSONObject.toJSONString(userLoginResp), 3600 * 24, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(token.toString(), JSONObject.toJSONString(userLoginResp), 3600 * 24, TimeUnit.SECONDS);
 
         resp.setContent(userLoginResp);
         return resp;
