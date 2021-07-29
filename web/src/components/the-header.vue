@@ -19,6 +19,16 @@
       <a-menu-item key="/admin">
         <router-link to="/admin">Manage Substitution</router-link>
       </a-menu-item>
+      <a-popconfirm
+          title="Confirm logout?"
+          ok-text="Yes "
+          cancel-text="No"
+          @confirm="logout()"
+      >
+        <a class="login-menu" v-show="loggedUser.id">
+          <span>Logout</span>
+        </a>
+      </a-popconfirm>
       <a class="login-menu" v-show="loggedUser.id">
         <span>Hello:{{loggedUser.name}}</span>
       </a>
@@ -148,6 +158,20 @@ export default defineComponent({
       });
     };
 
+    // logout
+    const logout = () => {
+      console.log("退出登录开始");
+      axios.get('/user/logout/' + loggedUser.value.token).then((response) => {
+        const data = response.data;
+        if (data.success) {
+          message.success("退出登录成功！");
+          store.commit("setUser", {});
+        } else {
+          message.error(data.message);
+        }
+      });
+    };
+
     return {
       handleModalOk,
       showRegisterModal,
@@ -159,7 +183,8 @@ export default defineComponent({
       user,
       loginUser,
       login,
-      loggedUser
+      loggedUser,
+      logout
     }
   },
 

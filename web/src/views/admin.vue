@@ -118,8 +118,6 @@ export default defineComponent({
         const data = response.data;
         if(data.success){
           ingredients.value = data.content.list;
-
-          // 重置分页按钮
           pagination.value.current = params.page;
           pagination.value.total = data.content.total;
         } else {
@@ -130,10 +128,9 @@ export default defineComponent({
     };
 
     /**
-     * 表格点击页码时触发
+     *
      */
     const handleTableChange = (pagination: any) => {
-      console.log("看看自带的分页参数都有啥：" + pagination);
       handleQuery({
         page: pagination.current,
         size: pagination.pageSize
@@ -185,7 +182,6 @@ export default defineComponent({
       axios.delete("/ingredient/delete/" + name).then((response) => {
         const data = response.data; // data = commonResp
         if (data.success) {
-          // 重新加载列表
           handleQuery({
             page: pagination.value.current,
             size: pagination.value.pageSize,
