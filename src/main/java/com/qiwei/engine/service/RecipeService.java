@@ -9,6 +9,9 @@ import com.qiwei.engine.mapper.RecipeMapperCust;
 import com.qiwei.engine.req.RecipeReq;
 import com.qiwei.engine.resp.RecipeResp;
 import com.qiwei.engine.util.CopyUtil;
+import com.qiwei.engine.util.RedisUtil;
+import com.qiwei.engine.util.RequestContext;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,6 +25,12 @@ public class RecipeService {
 
     @Resource
     RecipeMapperCust recipeMapperCust;
+
+    @Resource
+    RedisUtil redisUtil;
+
+    @Resource
+    public WsService wsService;
 
     /**
      * get all recipes
@@ -180,6 +189,21 @@ public class RecipeService {
        recipeMapperCust.increaseViewCount(id);
     }
 
+    /**
+     * Like
+     */
+    public void vote(Long id) {
+        // Remote IP and ID as Key, non-repeating for 24 hours
+        String ip = RequestContext.getRemoteAddr();
+        if (redisUtil.validateRepeat("RECIPE_VOTE_" + id + "_" + ip, 3600*24)) {
+            recipeMapperCust.increaseVoteCount(id);
+        } else {
+            throw new BusinessException(BusinessExceptionCode.VOTE_REPEAT);
+        }
 
-
+        // Push messages
+        Recipe recipeDb = recipeMapper.selectByPrimaryKey(id);
+        String logId = MDC.get("LOG_ID");
+        wsService.sendInfo("【" + recipeDb.getName() + "】be Liked", logId);
+    }
 }

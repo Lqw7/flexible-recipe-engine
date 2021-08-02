@@ -11,7 +11,7 @@
                 {{ item.viewCount }}
               </span>
               <span>
-                <component v-bind:is="'LikeOutlined'" style="margin-right: 8px"/>
+                <component v-bind:is="'LikeOutlined'" style="margin-right: 8px" @click="vote(item.id)"/>
                 {{ item.voteCount }}
               </span>
           </template>
@@ -40,6 +40,7 @@ import axios from 'axios';
 import {defineComponent, onMounted, ref} from 'vue';
 import {LikeOutlined,RiseOutlined } from '@ant-design/icons-vue';
 import {useRoute} from "vue-router";
+import {message} from "ant-design-vue";
 
 export default defineComponent({
   components: {
@@ -96,12 +97,25 @@ export default defineComponent({
       });
     };
 
+    const vote = (id:any) => {
+      console.log("vote:" + id);
+      axios.get('/recipe/vote/' + id).then((response) => {
+        const data = response.data;
+        if (data.success) {
+          query();
+        } else {
+          message.error(data.message);
+        }
+      });
+    };
+
     return {
       name,
       recipe,
       actions,
       imgError,
-      updateViewCount
+      updateViewCount,
+      vote
     };
   },
 });

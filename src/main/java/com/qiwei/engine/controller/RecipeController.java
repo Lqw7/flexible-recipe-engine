@@ -121,6 +121,12 @@ public class RecipeController {
         return resp;
     }
 
+    /**
+     * updateViewCount
+     * @param id
+     * @return
+     */
+    @ApiOperation(value = "Update View Count")
     @PostMapping ("/updateViewCount/{id}")
     public CommonResp findContent(@PathVariable Long id) {
         CommonResp resp = new CommonResp<>();
@@ -128,5 +134,12 @@ public class RecipeController {
         return resp;
     }
 
+
+    @GetMapping("/vote/{id}")
+    public CommonResp vote(@PathVariable Long id) {
+        CommonResp commonResp = new CommonResp();
+        recipeService.vote(id);
+        return commonResp;
+    }
 }
 

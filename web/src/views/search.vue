@@ -34,7 +34,7 @@
                 {{ item.viewCount }}
               </span>
               <span>
-                <component v-bind:is="'LikeOutlined'" style="margin-right: 8px"/>
+                <component v-bind:is="'LikeOutlined'" style="margin-right: 8px" @click="vote(item.id)"/>
                 {{ item.voteCount }}
               </span>
             </template>
@@ -61,6 +61,7 @@
 
 <script lang="ts">
 import axios from 'axios';
+import {message} from 'ant-design-vue';
 import {defineComponent, onMounted, ref} from 'vue';
 import { LikeOutlined, RiseOutlined} from '@ant-design/icons-vue';
 import {Tool} from "@/util/tool";
@@ -107,11 +108,13 @@ export default defineComponent({
       axios.get("/recipe/search?necessary=" + nece +"&option=" + option).then((response: any) => {
         console.log(response)
         const data = response.data;
-        recipe.value = null;
-        recipe.value = data.content;
+        if(data.success){
+          recipe.value = null;
+          recipe.value = data.content;
+        } else {
+          message.error(data.message);
+        }
       });
-
-
     }
 
     /**
@@ -127,10 +130,22 @@ export default defineComponent({
      */
     const updateViewCount = (id:any) => {
       console.log(id);
-      if(nece.length == 0 && opt.length == 0)
       axios.post("/recipe/updateViewCount/" + id).then((response: any) => {
         console.log(response)
         search(nece,opt)
+      });
+    };
+
+
+    const vote = (id:any) => {
+      console.log("vote:" + id);
+      axios.get('/recipe/vote/' + id).then((response) => {
+        const data = response.data;
+        if (data.success) {
+          search(nece,opt)
+        } else {
+          message.error(data.message);
+        }
       });
     };
     return {
@@ -138,7 +153,8 @@ export default defineComponent({
       necessaryChange,
       optionChange,
       imgError,
-      updateViewCount
+      updateViewCount,
+      vote
     };
   },
 });
