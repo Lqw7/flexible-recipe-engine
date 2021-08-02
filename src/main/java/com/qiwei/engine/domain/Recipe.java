@@ -1,5 +1,7 @@
 package com.qiwei.engine.domain;
 
+import java.util.Objects;
+
 public class Recipe {
     private Long id;
 
@@ -141,5 +143,18 @@ public class Recipe {
         sb.append(", viewCount=").append(viewCount);
         sb.append("]");
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Recipe recipe = (Recipe) o;
+        return Objects.equals(id, recipe.id) && Objects.equals(name, recipe.name) && Objects.equals(ingredients, recipe.ingredients) && Objects.equals(url, recipe.url) && Objects.equals(image, recipe.image) && Objects.equals(cooktime, recipe.cooktime) && Objects.equals(recipeyield, recipe.recipeyield) && Objects.equals(datepublished, recipe.datepublished) && Objects.equals(preptime, recipe.preptime) && Objects.equals(description, recipe.description) && Objects.equals(voteCount, recipe.voteCount) && Objects.equals(viewCount, recipe.viewCount);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, ingredients, url, image, cooktime, recipeyield, datepublished, preptime, description, voteCount, viewCount);
     }
 }

@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
 
 @Api(value = "Recipe Controller")
@@ -48,14 +49,15 @@ public class RecipeController {
 
     /**
      * search By Id
-     * @param recipeReq
+     * @param id
      * @return
      */
     @ApiOperation(value = "search By id")
-    @GetMapping("/searchById")
-    public CommonResp searchById(RecipeReq recipeReq){
-        CommonResp<RecipeResp> resp = new CommonResp<>();
-        RecipeResp recipeResp = recipeService.searchById(recipeReq);
+    @GetMapping("/searchById/{id}")
+    public CommonResp searchById(@PathVariable String id){
+        CommonResp<List<RecipeResp>> resp = new CommonResp<>();
+        List<String> list = Arrays.asList(id.split(","));
+        List<RecipeResp> recipeResp = recipeService.searchById(list);
         resp.setContent(recipeResp);
         return resp;
     }
@@ -107,6 +109,15 @@ public class RecipeController {
             resp.setSuccess(false);
             resp.setMessage("No Data");
         }
+        return resp;
+    }
+
+    @ApiOperation(value = "search")
+    @GetMapping("search")
+    public CommonResp search(@RequestParam("necessary") List<String> necessary, @RequestParam("option") List<String> option){
+        CommonResp<List<RecipeResp>> resp = new CommonResp<>();
+        List<RecipeResp> list = recipeService.search(necessary,option);
+        resp.setContent(list);
         return resp;
     }
 

@@ -9,7 +9,7 @@
             mode="tags"
             style="width: 100%"
             placeholder="input necessary ingredients"
-            @change="handleChange"
+            @change="necessaryChange"
 
         >
         </a-select>
@@ -75,7 +75,6 @@ export default defineComponent({
     const recipe = ref();
     let nece : string[];
     let opt : string[];
-
     onMounted(() => {
       console.log("onMounted")
       axios.get("/recipe/getRandomRecipes").then((response: any) => {
@@ -86,35 +85,33 @@ export default defineComponent({
 
     });
 
-    const handleChange = (necessary: string[]) => {
+    const necessaryChange = (necessary: string[]) => {
 
         nece = necessary;
 
         console.log(`selected ${necessary}`);
 
-         axios.get("/recipe/searchByIngredient?ingredients=" + necessary).then((response: any) => {
-            console.log(response)
-            const data = response.data;
-            recipe.value = null;
-            recipe.value = data.content;
-          });
+        search(necessary,opt)
 
 
     }
 
     const optionChange = (option: string[]) => {
       console.log(`selected ${option}`);
-      if(option.length != 0){
-        opt = option;
-        axios.get("/recipe/advancedSearch?necessary=" + nece +"&option=" + option ).then((response: any) => {
-          console.log(response)
-          const data = response.data;
-          recipe.value = null;
-          recipe.value = data.content;
-        });
-      } else {
-        handleChange(nece);
-      }
+      opt = option;
+      search(nece,option)
+    }
+
+
+    const search = (necessary: string[],option: string[]) => {
+      axios.get("/recipe/search?necessary=" + nece +"&option=" + option).then((response: any) => {
+        console.log(response)
+        const data = response.data;
+        recipe.value = null;
+        recipe.value = data.content;
+      });
+
+
     }
 
     /**
@@ -130,13 +127,15 @@ export default defineComponent({
      */
     const updateViewCount = (id:any) => {
       console.log(id);
+      if(nece.length == 0 && opt.length == 0)
       axios.post("/recipe/updateViewCount/" + id).then((response: any) => {
         console.log(response)
+        search(nece,opt)
       });
     };
     return {
       recipe,
-      handleChange,
+      necessaryChange,
       optionChange,
       imgError,
       updateViewCount

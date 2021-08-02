@@ -7,7 +7,7 @@ GET http://127.0.0.1:8889/recipe/list
 GET http://127.0.0.1:8889/recipe/searchByName?name=Sandwich
 
 ###
-GET http://localhost:8889/recipe/searchById?id=1
+GET http://localhost:8889/recipe/searchById/2,3
 
 ###
 GET http://127.0.0.1:8889/recipe/searchByIngredient?ingredients=cabbage

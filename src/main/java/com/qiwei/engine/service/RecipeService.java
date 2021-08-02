@@ -2,6 +2,8 @@ package com.qiwei.engine.service;
 
 import com.qiwei.engine.domain.Recipe;
 import com.qiwei.engine.domain.RecipeExample;
+import com.qiwei.engine.exception.BusinessException;
+import com.qiwei.engine.exception.BusinessExceptionCode;
 import com.qiwei.engine.mapper.RecipeMapper;
 import com.qiwei.engine.mapper.RecipeMapperCust;
 import com.qiwei.engine.req.RecipeReq;
@@ -66,6 +68,26 @@ public class RecipeService {
 
     /**
      *
+     * @param necessary
+     * @param option
+     * @return
+     */
+    public List<RecipeResp> search(List<String> necessary, List<String> option){
+        List<RecipeResp> list = new ArrayList<>();
+        if(necessary.isEmpty()){
+            throw new BusinessException(BusinessExceptionCode.USER_LOGIN_NAME_EXIST);
+        } else if(!necessary.isEmpty() ){
+            if(option.isEmpty()){
+                list = searchByIngredient(necessary);
+            } else {
+                list = advancedSearch(necessary,option);
+            }
+        }
+        return list;
+    }
+
+    /**
+     *
      * @param necessary necessary ingredients
      * @param option optional ingredients
      * @return
@@ -118,13 +140,16 @@ public class RecipeService {
 
     /**
      * search By Id
-     * @param req
+     * @param ids
      * @return
      */
-    public RecipeResp searchById(RecipeReq req){
-        Recipe recipe = recipeMapper.selectByPrimaryKey(req.getId());
-        RecipeResp recipeResp = CopyUtil.copy(recipe, RecipeResp.class);
-        return recipeResp;
+    public List<RecipeResp> searchById(List<String> ids){
+        RecipeExample recipeExample = new RecipeExample();
+        RecipeExample.Criteria criteria = recipeExample.createCriteria();
+        criteria.andIdIn(ids);
+        List<Recipe> recipeList = recipeMapper.selectByExample(recipeExample);
+        List<RecipeResp> list = CopyUtil.copyList(recipeList, RecipeResp.class);
+        return list;
     }
 
     /**
