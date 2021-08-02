@@ -3,6 +3,7 @@ package com.qiwei.engine.service;
 import com.qiwei.engine.domain.Recipe;
 import com.qiwei.engine.domain.RecipeExample;
 import com.qiwei.engine.mapper.RecipeMapper;
+import com.qiwei.engine.mapper.RecipeMapperCust;
 import com.qiwei.engine.req.RecipeReq;
 import com.qiwei.engine.resp.RecipeResp;
 import com.qiwei.engine.util.CopyUtil;
@@ -16,6 +17,9 @@ public class RecipeService {
 
     @Resource
     RecipeMapper recipeMapper;
+
+    @Resource
+    RecipeMapperCust recipeMapperCust;
 
     /**
      * get all recipes
@@ -143,7 +147,13 @@ public class RecipeService {
         return list;
     }
 
+    /**
+     * updateViewCount
+     */
 
+    public void updateViewCount(Long id){
+       recipeMapperCust.increaseViewCount(id);
+    }
 
 
 

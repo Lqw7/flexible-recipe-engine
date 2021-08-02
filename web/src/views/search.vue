@@ -29,10 +29,14 @@
         <template #renderItem="{ item }">
           <a-list-item key="item.title">
             <template #actions>
-          <span v-for="{ type, text } in actions" :key="type">
-            <component v-bind:is="type" style="margin-right: 8px" />
-            {{ text }}
-          </span>
+             <span>
+                <component v-bind:is="'RiseOutlined'" style="margin-right: 8px"/>
+                {{ item.viewCount }}
+              </span>
+              <span>
+                <component v-bind:is="'LikeOutlined'" style="margin-right: 8px"/>
+                {{ item.voteCount }}
+              </span>
             </template>
             <template #extra>
               <img
@@ -44,7 +48,7 @@
             </template>
             <a-list-item-meta :description="item.description">
               <template #title>
-                <a :href="item.url" target="_blank">{{ item.name }}</a>
+                <a :href="item.url" target="_blank" @click="updateViewCount(item.id)">{{ item.name }}</a>
               </template>
             </a-list-item-meta>
             {{ item.ingredients }}
@@ -58,14 +62,13 @@
 <script lang="ts">
 import axios from 'axios';
 import {defineComponent, onMounted, ref} from 'vue';
-import { StarOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons-vue';
+import { LikeOutlined, RiseOutlined} from '@ant-design/icons-vue';
 import {Tool} from "@/util/tool";
 
 export default defineComponent({
   components: {
-    StarOutlined,
     LikeOutlined,
-    MessageOutlined,
+    RiseOutlined
   },
 
   setup() {
@@ -121,18 +124,22 @@ export default defineComponent({
       item.image = "https://realfood.tesco.com/media/images/RFO-380x250-Sri-Lankan-style-sweet-potato-curry-01715a97-f294-44c7-9789-e5db773f55f5-0-380x250.jpg";
     };
 
-    const actions: Record<string, string>[] = [
-      { type: 'StarOutlined', text: '156' },
-      { type: 'LikeOutlined', text: '156' },
-      { type: 'MessageOutlined', text: '2' },
-    ];
-
+    /**
+     * updateViewCount
+     * @param id
+     */
+    const updateViewCount = (id:any) => {
+      console.log(id);
+      axios.post("/recipe/updateViewCount/" + id).then((response: any) => {
+        console.log(response)
+      });
+    };
     return {
       recipe,
       handleChange,
       optionChange,
-      actions,
-      imgError
+      imgError,
+      updateViewCount
     };
   },
 });

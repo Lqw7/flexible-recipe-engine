@@ -13,8 +13,8 @@
       <a-menu-item key="/search">
         <router-link to="/search">Search</router-link>
       </a-menu-item>
-      <a-menu-item key="/about">
-        <router-link to="/about">Substitution</router-link>
+      <a-menu-item key="/substitution">
+        <router-link to="/substitution">Substitution</router-link>
       </a-menu-item>
       <a-menu-item key="/admin">
         <router-link to="/admin">Manage Substitution</router-link>
@@ -160,11 +160,10 @@ export default defineComponent({
 
     // logout
     const logout = () => {
-      console.log("退出登录开始");
       axios.get('/user/logout/' + loggedUser.value.token).then((response) => {
         const data = response.data;
         if (data.success) {
-          message.success("退出登录成功！");
+          message.success("Exit login successful！");
           store.commit("setUser", {});
         } else {
           message.error(data.message);

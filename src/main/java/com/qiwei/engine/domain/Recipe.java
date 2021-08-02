@@ -21,6 +21,10 @@ public class Recipe {
 
     private String description;
 
+    private Integer voteCount;
+
+    private Integer viewCount;
+
     public Long getId() {
         return id;
     }
@@ -101,6 +105,22 @@ public class Recipe {
         this.description = description;
     }
 
+    public Integer getVoteCount() {
+        return voteCount;
+    }
+
+    public void setVoteCount(Integer voteCount) {
+        this.voteCount = voteCount;
+    }
+
+    public Integer getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(Integer viewCount) {
+        this.viewCount = viewCount;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -117,6 +137,8 @@ public class Recipe {
         sb.append(", datepublished=").append(datepublished);
         sb.append(", preptime=").append(preptime);
         sb.append(", description=").append(description);
+        sb.append(", voteCount=").append(voteCount);
+        sb.append(", viewCount=").append(viewCount);
         sb.append("]");
         return sb.toString();
     }

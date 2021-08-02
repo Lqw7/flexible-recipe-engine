@@ -2,14 +2,18 @@
   <div id="recipe-title">
     <pre>{{ name }} Recipe</pre></div>
   <div id="result">
-    <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="recipe">
+    <a-list item-layout="vertical" size="large" :data-source="recipe">
       <template #renderItem="{ item }">
         <a-list-item key="item.title">
           <template #actions>
-          <span v-for="{ type, text } in actions" :key="type">
-            <component v-bind:is="type" style="margin-right: 8px" />
-            {{ text }}
-          </span>
+              <span>
+                <component v-bind:is="'RiseOutlined'" style="margin-right: 8px"/>
+                {{ item.viewCount }}
+              </span>
+              <span>
+                <component v-bind:is="'LikeOutlined'" style="margin-right: 8px"/>
+                {{ item.voteCount }}
+              </span>
           </template>
           <template #extra>
             <img
@@ -21,7 +25,7 @@
           </template>
           <a-list-item-meta :description="item.description">
             <template #title>
-              <a :href="item.url" target="_blank">{{ item.name }}</a>
+              <a :href="item.url" target="_blank" @click="updateViewCount(item.id)">{{ item.name }}</a>
             </template>
           </a-list-item-meta>
           {{ item.ingredients }}
@@ -34,14 +38,13 @@
 <script lang="ts">
 import axios from 'axios';
 import {defineComponent, onMounted, ref} from 'vue';
-import { StarOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons-vue';
+import {LikeOutlined,RiseOutlined } from '@ant-design/icons-vue';
 import {useRoute} from "vue-router";
 
 export default defineComponent({
   components: {
-    StarOutlined,
     LikeOutlined,
-    MessageOutlined,
+    RiseOutlined
   },
 
   setup() {
@@ -52,13 +55,20 @@ export default defineComponent({
 
     onMounted(() => {
       console.log("onMounted")
+      query();
+
+    });
+
+    /**
+     * query
+     */
+    const query = () => {
       axios.get("/recipe/searchByName?name=" + route.query.name).then((response: any) => {
         console.log(response)
         const data = response.data;
         recipe.value = data.content;
       });
-
-    });
+    };
 
 
     /**
@@ -69,16 +79,29 @@ export default defineComponent({
     };
 
     const actions: Record<string, string>[] = [
-      { type: 'StarOutlined', text: '156' },
+      { type: 'RiseOutlined', text: '2' },
       { type: 'LikeOutlined', text: '156' },
-      { type: 'MessageOutlined', text: '2' },
+
     ];
+
+    /**
+     * updateViewCount
+     * @param id
+     */
+    const updateViewCount = (id:any) => {
+      console.log(id);
+      axios.post("/recipe/updateViewCount/" + id).then((response: any) => {
+        console.log(response)
+        query();
+      });
+    };
 
     return {
       name,
       recipe,
       actions,
-      imgError
+      imgError,
+      updateViewCount
     };
   },
 });

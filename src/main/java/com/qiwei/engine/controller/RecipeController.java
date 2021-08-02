@@ -6,10 +6,7 @@ import com.qiwei.engine.resp.RecipeResp;
 import com.qiwei.engine.service.RecipeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -110,6 +107,13 @@ public class RecipeController {
             resp.setSuccess(false);
             resp.setMessage("No Data");
         }
+        return resp;
+    }
+
+    @PostMapping ("/updateViewCount/{id}")
+    public CommonResp findContent(@PathVariable Long id) {
+        CommonResp resp = new CommonResp<>();
+        recipeService.updateViewCount(id);
         return resp;
     }
 

@@ -793,6 +793,126 @@ public class RecipeExample {
             addCriterion("description not between", value1, value2, "description");
             return (Criteria) this;
         }
+
+        public Criteria andVoteCountIsNull() {
+            addCriterion("vote_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteCountIsNotNull() {
+            addCriterion("vote_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteCountEqualTo(Integer value) {
+            addCriterion("vote_count =", value, "voteCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteCountNotEqualTo(Integer value) {
+            addCriterion("vote_count <>", value, "voteCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteCountGreaterThan(Integer value) {
+            addCriterion("vote_count >", value, "voteCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("vote_count >=", value, "voteCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteCountLessThan(Integer value) {
+            addCriterion("vote_count <", value, "voteCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteCountLessThanOrEqualTo(Integer value) {
+            addCriterion("vote_count <=", value, "voteCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteCountIn(List<Integer> values) {
+            addCriterion("vote_count in", values, "voteCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteCountNotIn(List<Integer> values) {
+            addCriterion("vote_count not in", values, "voteCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteCountBetween(Integer value1, Integer value2) {
+            addCriterion("vote_count between", value1, value2, "voteCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("vote_count not between", value1, value2, "voteCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViewCountIsNull() {
+            addCriterion("view_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andViewCountIsNotNull() {
+            addCriterion("view_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andViewCountEqualTo(Integer value) {
+            addCriterion("view_count =", value, "viewCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViewCountNotEqualTo(Integer value) {
+            addCriterion("view_count <>", value, "viewCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViewCountGreaterThan(Integer value) {
+            addCriterion("view_count >", value, "viewCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViewCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("view_count >=", value, "viewCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViewCountLessThan(Integer value) {
+            addCriterion("view_count <", value, "viewCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViewCountLessThanOrEqualTo(Integer value) {
+            addCriterion("view_count <=", value, "viewCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViewCountIn(List<Integer> values) {
+            addCriterion("view_count in", values, "viewCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViewCountNotIn(List<Integer> values) {
+            addCriterion("view_count not in", values, "viewCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViewCountBetween(Integer value1, Integer value2) {
+            addCriterion("view_count between", value1, value2, "viewCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andViewCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("view_count not between", value1, value2, "viewCount");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
