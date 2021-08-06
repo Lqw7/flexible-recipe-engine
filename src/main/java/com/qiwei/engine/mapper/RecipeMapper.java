@@ -2,9 +2,8 @@ package com.qiwei.engine.mapper;
 
 import com.qiwei.engine.domain.Recipe;
 import com.qiwei.engine.domain.RecipeExample;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface RecipeMapper {
     long countByExample(RecipeExample example);

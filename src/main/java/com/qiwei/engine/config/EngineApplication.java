@@ -7,10 +7,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @ComponentScan("com.qiwei")
 @SpringBootApplication
 @MapperScan("com.qiwei.engine.mapper")
+@EnableScheduling
+@EnableAsync
 public class EngineApplication {
 
     private static final Logger LOG = LoggerFactory.getLogger(EngineApplication.class);

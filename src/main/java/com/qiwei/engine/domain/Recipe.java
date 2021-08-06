@@ -1,7 +1,5 @@
 package com.qiwei.engine.domain;
 
-import java.util.Objects;
-
 public class Recipe {
     private Long id;
 
@@ -14,10 +12,6 @@ public class Recipe {
     private String image;
 
     private String cooktime;
-
-    private String recipeyield;
-
-    private String datepublished;
 
     private String preptime;
 
@@ -75,22 +69,6 @@ public class Recipe {
         this.cooktime = cooktime;
     }
 
-    public String getRecipeyield() {
-        return recipeyield;
-    }
-
-    public void setRecipeyield(String recipeyield) {
-        this.recipeyield = recipeyield;
-    }
-
-    public String getDatepublished() {
-        return datepublished;
-    }
-
-    public void setDatepublished(String datepublished) {
-        this.datepublished = datepublished;
-    }
-
     public String getPreptime() {
         return preptime;
     }
@@ -135,26 +113,11 @@ public class Recipe {
         sb.append(", url=").append(url);
         sb.append(", image=").append(image);
         sb.append(", cooktime=").append(cooktime);
-        sb.append(", recipeyield=").append(recipeyield);
-        sb.append(", datepublished=").append(datepublished);
         sb.append(", preptime=").append(preptime);
         sb.append(", description=").append(description);
         sb.append(", voteCount=").append(voteCount);
         sb.append(", viewCount=").append(viewCount);
         sb.append("]");
         return sb.toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Recipe recipe = (Recipe) o;
-        return Objects.equals(id, recipe.id) && Objects.equals(name, recipe.name) && Objects.equals(ingredients, recipe.ingredients) && Objects.equals(url, recipe.url) && Objects.equals(image, recipe.image) && Objects.equals(cooktime, recipe.cooktime) && Objects.equals(recipeyield, recipe.recipeyield) && Objects.equals(datepublished, recipe.datepublished) && Objects.equals(preptime, recipe.preptime) && Objects.equals(description, recipe.description) && Objects.equals(voteCount, recipe.voteCount) && Objects.equals(viewCount, recipe.viewCount);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, ingredients, url, image, cooktime, recipeyield, datepublished, preptime, description, voteCount, viewCount);
     }
 }

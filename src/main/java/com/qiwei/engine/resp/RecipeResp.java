@@ -13,10 +13,6 @@ public class RecipeResp {
 
     private String cooktime;
 
-    private String recipeyield;
-
-    private String datepublished;
-
     private String preptime;
 
     private String description;
@@ -73,22 +69,6 @@ public class RecipeResp {
         this.cooktime = cooktime;
     }
 
-    public String getRecipeyield() {
-        return recipeyield;
-    }
-
-    public void setRecipeyield(String recipeyield) {
-        this.recipeyield = recipeyield;
-    }
-
-    public String getDatepublished() {
-        return datepublished;
-    }
-
-    public void setDatepublished(String datepublished) {
-        this.datepublished = datepublished;
-    }
-
     public String getPreptime() {
         return preptime;
     }
@@ -133,8 +113,6 @@ public class RecipeResp {
         sb.append(", url=").append(url);
         sb.append(", image=").append(image);
         sb.append(", cooktime=").append(cooktime);
-        sb.append(", recipeyield=").append(recipeyield);
-        sb.append(", datepublished=").append(datepublished);
         sb.append(", preptime=").append(preptime);
         sb.append(", description=").append(description);
         sb.append(", voteCount=").append(voteCount);

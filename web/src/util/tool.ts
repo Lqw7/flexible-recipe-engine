@@ -1,6 +1,6 @@
 export class Tool {
   /**
-   * 空校验 null或""都返回true
+   * null or "" both return true
    */
   public static isEmpty (obj: any) {
     if ((typeof obj === 'string')) {
@@ -11,14 +11,14 @@ export class Tool {
   }
 
   /**
-   * 非空校验
+   * Non-empty checks
    */
   public static isNotEmpty (obj: any) {
     return !this.isEmpty(obj);
   }
 
   /**
-   * 对象复制
+   * Object copying
    * @param obj
    */
   public static copy (obj: object) {
@@ -28,8 +28,8 @@ export class Tool {
   }
 
   /**
-   * 使用递归将数组转为树形结构
-   * 父ID属性为parent
+   * Turning arrays into trees using recursion
+   * The parent ID attribute is parent
    */
   public static array2Tree (array: any, parentId: number) {
 
@@ -45,7 +45,7 @@ export class Tool {
         console.log(c);
         result.push(c);
 
-        // 递归查看当前节点对应的子节点
+        // Recursive view of the current node's corresponding children
         const children = Tool.array2Tree(array, c.categoryid);
         if (Tool.isNotEmpty(children)) {
           c.children = children;
@@ -56,7 +56,7 @@ export class Tool {
   }
 
   /**
-   * 随机生成[len]长度的[radix]进制数
+   * Randomly generate [radix] decimal numbers of [len] length
    * @param len
    * @param radix 默认62
    * @returns {string}

@@ -8,8 +8,6 @@
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="image" jdbcType="VARCHAR" property="image" />
     <result column="cookTime" jdbcType="VARCHAR" property="cooktime" />
-    <result column="recipeYield" jdbcType="VARCHAR" property="recipeyield" />
-    <result column="datePublished" jdbcType="VARCHAR" property="datepublished" />
     <result column="prepTime" jdbcType="VARCHAR" property="preptime" />
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="vote_count" jdbcType="INTEGER" property="voteCount" />
@@ -74,8 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, `name`, ingredients, url, image, cookTime, recipeYield, datePublished, prepTime, 
-    description, vote_count, view_count
+    id, `name`, ingredients, url, image, cookTime, prepTime, description, vote_count, 
+    view_count
   </sql>
   <select id="selectByExample" parameterType="com.qiwei.engine.domain.RecipeExample" resultMap="BaseResultMap">
     select
@@ -110,14 +108,12 @@
   <insert id="insert" parameterType="com.qiwei.engine.domain.Recipe">
     insert into recipes (id, `name`, ingredients, 
       url, image, cookTime, 
-      recipeYield, datePublished, prepTime, 
-      description, vote_count, view_count
-      )
+      prepTime, description, vote_count, 
+      view_count)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{ingredients,jdbcType=VARCHAR}, 
       #{url,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}, #{cooktime,jdbcType=VARCHAR}, 
-      #{recipeyield,jdbcType=VARCHAR}, #{datepublished,jdbcType=VARCHAR}, #{preptime,jdbcType=VARCHAR}, 
-      #{description,jdbcType=VARCHAR}, #{voteCount,jdbcType=INTEGER}, #{viewCount,jdbcType=INTEGER}
-      )
+      #{preptime,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{voteCount,jdbcType=INTEGER}, 
+      #{viewCount,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.qiwei.engine.domain.Recipe">
     insert into recipes
@@ -139,12 +135,6 @@
       </if>
       <if test="cooktime != null">
         cookTime,
-      </if>
-      <if test="recipeyield != null">
-        recipeYield,
-      </if>
-      <if test="datepublished != null">
-        datePublished,
       </if>
       <if test="preptime != null">
         prepTime,
@@ -177,12 +167,6 @@
       </if>
       <if test="cooktime != null">
         #{cooktime,jdbcType=VARCHAR},
-      </if>
-      <if test="recipeyield != null">
-        #{recipeyield,jdbcType=VARCHAR},
-      </if>
-      <if test="datepublished != null">
-        #{datepublished,jdbcType=VARCHAR},
       </if>
       <if test="preptime != null">
         #{preptime,jdbcType=VARCHAR},
@@ -225,12 +209,6 @@
       <if test="record.cooktime != null">
         cookTime = #{record.cooktime,jdbcType=VARCHAR},
       </if>
-      <if test="record.recipeyield != null">
-        recipeYield = #{record.recipeyield,jdbcType=VARCHAR},
-      </if>
-      <if test="record.datepublished != null">
-        datePublished = #{record.datepublished,jdbcType=VARCHAR},
-      </if>
       <if test="record.preptime != null">
         prepTime = #{record.preptime,jdbcType=VARCHAR},
       </if>
@@ -256,8 +234,6 @@
       url = #{record.url,jdbcType=VARCHAR},
       image = #{record.image,jdbcType=VARCHAR},
       cookTime = #{record.cooktime,jdbcType=VARCHAR},
-      recipeYield = #{record.recipeyield,jdbcType=VARCHAR},
-      datePublished = #{record.datepublished,jdbcType=VARCHAR},
       prepTime = #{record.preptime,jdbcType=VARCHAR},
       description = #{record.description,jdbcType=VARCHAR},
       vote_count = #{record.voteCount,jdbcType=INTEGER},
@@ -284,12 +260,6 @@
       <if test="cooktime != null">
         cookTime = #{cooktime,jdbcType=VARCHAR},
       </if>
-      <if test="recipeyield != null">
-        recipeYield = #{recipeyield,jdbcType=VARCHAR},
-      </if>
-      <if test="datepublished != null">
-        datePublished = #{datepublished,jdbcType=VARCHAR},
-      </if>
       <if test="preptime != null">
         prepTime = #{preptime,jdbcType=VARCHAR},
       </if>
@@ -312,8 +282,6 @@
       url = #{url,jdbcType=VARCHAR},
       image = #{image,jdbcType=VARCHAR},
       cookTime = #{cooktime,jdbcType=VARCHAR},
-      recipeYield = #{recipeyield,jdbcType=VARCHAR},
-      datePublished = #{datepublished,jdbcType=VARCHAR},
       prepTime = #{preptime,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
       vote_count = #{voteCount,jdbcType=INTEGER},
