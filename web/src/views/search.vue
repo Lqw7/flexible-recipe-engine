@@ -4,6 +4,7 @@
         <p>Find recipes by ingredients</p>
       </div>
       <div id="select1">
+        <p>Necessary ingredient</p>
         <a-select
             v-model:value ="necessary"
             mode="tags"
@@ -15,6 +16,7 @@
         </a-select>
       </div>
     <div id="select2">
+      <p>Optional ingredient</p>
       <a-select
           v-model:value="option"
           mode="tags"
@@ -78,12 +80,6 @@ export default defineComponent({
     let opt : string[];
     onMounted(() => {
       console.log("onMounted")
-      axios.get("/recipe/getRandomRecipes").then((response: any) => {
-        console.log(response)
-        const data = response.data;
-        recipe.value = data.content;
-      });
-
     });
 
     const necessaryChange = (necessary: string[]) => {
@@ -185,5 +181,19 @@ export default defineComponent({
   width:1250px;
   margin: 0 auto;
 }
+#select1 p{
+  font-size: 16px;
+  font-weight: bold;
+  text-align: left;
+  font-family: "Microsoft YaHei";
+  color: #141414;
+}
 
+#select2 p{
+  font-size: 16px;
+  font-weight: bold;
+  text-align: left;
+  font-family: "Microsoft YaHei";
+  color: #141414;
+}
 </style>
