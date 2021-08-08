@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.qiwei.engine.domain.Ingredient;
 import com.qiwei.engine.domain.IngredientExample;
 import com.qiwei.engine.mapper.IngredientMapper;
+import com.qiwei.engine.mapper.IngredientMapperCust;
 import com.qiwei.engine.req.IngredientQueryReq;
 import com.qiwei.engine.req.IngredientReq;
 import com.qiwei.engine.req.IngredientSaveReq;
@@ -28,17 +29,18 @@ public class IngredientService {
     @Resource
     IngredientMapper ingredientMapper;
 
+    @Resource
+    IngredientMapperCust ingredientMapperCust;
+
 
     public List<IngredientResp> searchSubstitution(IngredientReq req){
+        List<Ingredient> substitutionsList = ingredientMapperCust.searchSubstitution(req.getName());
+        //Remove the ingredient for the query
         Ingredient ingredient = ingredientMapper.selectByPrimaryKey(req.getName());
-        IngredientExample ingredientExample = new IngredientExample();
-        IngredientExample.Criteria criteria = ingredientExample.createCriteria();
-        criteria.andCategoryEqualTo(ingredient.getCategory());
-        List<Ingredient> substitutionsList = ingredientMapper.selectByExample(ingredientExample);
         Iterator<Ingredient> iterator = substitutionsList.iterator();
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             Ingredient i = iterator.next();
-            if(i.equals(ingredient)){
+            if (i.equals(ingredient)) {
                 iterator.remove();
             }
         }
@@ -56,10 +58,10 @@ public class IngredientService {
         IngredientExample.Criteria criteria = ingredientExample.createCriteria();
         if(!ObjectUtils.isEmpty(req.getCategory())){
             criteria.andCategoryLike("%" + req.getCategory() + "%");
+        } else if(!ObjectUtils.isEmpty(req.getName())){
+            criteria.andNameLike("%" + req.getName() + "%");
         }
-
         PageHelper.startPage(req.getPage(), req.getSize());
-
         ingredientExample.setOrderByClause("category asc");
         List<Ingredient> ingredientList = ingredientMapper.selectByExample(ingredientExample);
 
@@ -74,6 +76,13 @@ public class IngredientService {
 
         return pageResp;
     }
+
+    public IngredientResp getIngredient(String name){
+        Ingredient ingredient = ingredientMapper.selectByPrimaryKey(name);
+        IngredientResp ingredientResp = CopyUtil.copy(ingredient, IngredientResp.class);
+        return ingredientResp;
+    }
+
 
     /**
      * save

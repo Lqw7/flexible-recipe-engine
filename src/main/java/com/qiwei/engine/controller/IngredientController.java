@@ -32,6 +32,16 @@ public class IngredientController {
         return resp;
     }
 
+
+    @ApiOperation(value = "Get Ingredient")
+    @GetMapping("/getIngredient")
+    public CommonResp getIngredient(String name){
+        CommonResp<IngredientResp> resp = new CommonResp<>();
+        IngredientResp ingredientResp = ingredientService.getIngredient(name);
+        resp.setContent(ingredientResp);
+        return resp;
+    }
+
     @ApiOperation(value = "get All Substitution List")
     @GetMapping("/getAllSubstitutionList")
     public CommonResp getAllSubstitutionList(IngredientQueryReq req){

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.qiwei.engine.mapper.IngredientMapperCust" >
+    <select id="searchSubstitution" parameterType="java.lang.String" resultType="com.qiwei.engine.domain.Ingredient">
+        select * from substitution
+        where category in (
+            select category from substitution
+            where name=#{name}) ;
+    </select>
+</mapper>

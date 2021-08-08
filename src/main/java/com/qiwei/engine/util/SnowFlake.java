@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import java.text.ParseException;
 
 /**
- * Twitter的分布式自增ID雪花算法
+ * Twitter's Distributed Self-Augmenting ID Snowflake Algorithm
  **/
 @Component
 public class SnowFlake {

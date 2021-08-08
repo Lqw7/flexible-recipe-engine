@@ -6,6 +6,12 @@
       <p>
         <a-form layout="inline" :model="param">
           <a-form-item>
+            <a-select style="width: 130px" v-model:value="param.search">
+              <a-select-option value="Ingredient">Ingredient</a-select-option>
+              <a-select-option value="Category">Category</a-select-option>
+            </a-select>
+          </a-form-item>
+          <a-form-item>
             <a-input v-model:value="param.category" placeholder="Category">
             </a-input>
           </a-form-item>
@@ -107,24 +113,61 @@ export default defineComponent({
      **/
     const handleQuery = (params: any) => {
       loading.value = true;
-      axios.get("/ingredient/getAllSubstitutionList", {
-        params:{
-          page: params.page,
-          size: params.size,
-          category: param.value.category
-        }
-      }).then((response) => {
-        loading.value = false;
-        const data = response.data;
-        if(data.success){
-          ingredients.value = data.content.list;
-          pagination.value.current = params.page;
-          pagination.value.total = data.content.total;
-        } else {
-          message.error(data.message)
-        }
+      if(param.value.search == null){
+        axios.get("/ingredient/getAllSubstitutionList", {
+          params:{
+            page: params.page,
+            size: params.size,
+          }
+        }).then((response) => {
+          loading.value = false;
+          const data = response.data;
+          if(data.success){
+            ingredients.value = data.content.list;
+            pagination.value.current = params.page;
+            pagination.value.total = data.content.total;
+          } else {
+            message.error(data.message)
+          }
+        });
+      } else if(param.value.search == "Category"){
+        axios.get("/ingredient/getAllSubstitutionList", {
+          params:{
+            page: params.page,
+            size: params.size,
+            category: param.value.category
+          }
+        }).then((response) => {
+          loading.value = false;
+          const data = response.data;
+          if(data.success){
+            ingredients.value = data.content.list;
+            pagination.value.current = params.page;
+            pagination.value.total = data.content.total;
+          } else {
+            message.error(data.message)
+          }
+        });
+      } else if(param.value.search == "Ingredient"){
+        axios.get("/ingredient/getAllSubstitutionList", {
+          params:{
+            page: params.page,
+            size: params.size,
+            name: param.value.category
+          }
+        }).then((response) => {
+          loading.value = false;
+          const data = response.data;
+          if(data.success){
+            ingredients.value = data.content.list;
+            pagination.value.current = params.page;
+            pagination.value.total = data.content.total;
+          } else {
+            message.error(data.message)
+          }
+        });
+      }
 
-      });
     };
 
     /**

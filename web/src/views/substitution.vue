@@ -15,6 +15,9 @@
       <div id="result">
         <a-tag v-for="item in ingredient" v-bind:key="item.name" @click="query(item.name)">{{item.name}}</a-tag>
       </div>
+      <div id="selectedIngredient">
+        <p>{{ selectedIngredient }}</p>
+      </div>
     </div>
     <a-list item-layout="vertical" size="large" :data-source="recipe">
       <template #renderItem="{ item }">
@@ -65,6 +68,7 @@ export default defineComponent({
   setup() {
     const recipe = ref();
     const ingredient = ref();
+    const selectedIngredient = ref();
     const s = ref();
     let globalSearch : string;
 
@@ -78,6 +82,7 @@ export default defineComponent({
         axios.get("/ingredient/searchSubstitution?name=" + value).then((response: any) => {
           console.log(response);
           globalSearch = value[0];
+          selectedIngredient.value = value[0];
           const data = response.data;
           ingredient.value = null;
           ingredient.value = data.content;
@@ -90,6 +95,7 @@ export default defineComponent({
       axios.get("/recipe/searchByIngredient?ingredients=" + name).then((response: any) => {
         console.log(response)
         globalSearch = name;
+        selectedIngredient.value = name;
         const data = response.data;
         recipe.value = null;
         recipe.value = data.content;
@@ -133,7 +139,8 @@ export default defineComponent({
       handleChange,
       updateViewCount,
       imgError,
-      vote
+      vote,
+      selectedIngredient
     };
   },
 });
@@ -168,5 +175,13 @@ export default defineComponent({
 #result a{
   float: left;
   padding: 15px;
+}
+#selectedIngredient{
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  font-family: "Microsoft YaHei";
+  color: #141414;
+  margin-top: 10px;
 }
 </style>

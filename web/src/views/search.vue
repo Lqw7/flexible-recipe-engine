@@ -83,18 +83,11 @@ export default defineComponent({
     });
 
     const necessaryChange = (necessary: string[]) => {
-
         nece = necessary;
-
-        console.log(`selected ${necessary}`);
-
         search(necessary,opt)
-
-
     }
 
     const optionChange = (option: string[]) => {
-      console.log(`selected ${option}`);
       opt = option;
       search(nece,option)
     }

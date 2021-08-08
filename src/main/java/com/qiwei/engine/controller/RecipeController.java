@@ -98,7 +98,7 @@ public class RecipeController {
     }
 
     @ApiOperation(value = "advanced Search")
-    @GetMapping("advancedSearch")
+    @GetMapping("/advancedSearch")
     public CommonResp advancedSearch(@RequestParam("necessary") List<String> necessary, @RequestParam("option") List<String> option){
         CommonResp<List<RecipeResp>> resp = new CommonResp<>();
         List<RecipeResp> list = recipeService.advancedSearch(necessary,option);
@@ -113,7 +113,7 @@ public class RecipeController {
     }
 
     @ApiOperation(value = "search")
-    @GetMapping("search")
+    @GetMapping("/search")
     public CommonResp search(@RequestParam("necessary") List<String> necessary, @RequestParam("option") List<String> option){
         CommonResp<List<RecipeResp>> resp = new CommonResp<>();
         List<RecipeResp> list = recipeService.search(necessary,option);
