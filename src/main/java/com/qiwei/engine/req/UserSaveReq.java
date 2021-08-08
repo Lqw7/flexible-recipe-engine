@@ -4,6 +4,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 public class UserSaveReq {
+
     private Long id;
 
     @NotNull(message = "Loginname cannot be empty")
@@ -13,7 +14,7 @@ public class UserSaveReq {
     private String name;
 
     @NotNull(message = "Password cannot be empty")
-    // @Length(min = 6, max = 20, message = "【password】6~20")
+
     @Pattern(regexp = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,32}$", message = "Password containing at least numbers and letters, length 6-32")
     private String password;
 

@@ -61,19 +61,18 @@ public class IngredientService {
         } else if(!ObjectUtils.isEmpty(req.getName())){
             criteria.andNameLike("%" + req.getName() + "%");
         }
+
+
         PageHelper.startPage(req.getPage(), req.getSize());
         ingredientExample.setOrderByClause("category asc");
         List<Ingredient> ingredientList = ingredientMapper.selectByExample(ingredientExample);
 
         PageInfo<Ingredient> pageInfo = new PageInfo<>(ingredientList);
-        LOG.info("Total number of rows：{}", pageInfo.getTotal());
-        LOG.info("Total number of pages：{}", pageInfo.getPages());
-
         List<IngredientResp> list = CopyUtil.copyList(ingredientList, IngredientResp.class);
+
         PageResp<IngredientResp> pageResp = new PageResp<>();
         pageResp.setTotal(pageInfo.getTotal());
         pageResp.setList(list);
-
         return pageResp;
     }
 
